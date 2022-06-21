@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.sino.model.db.User;
 
-@Database(entities = {User.class},version = 1,exportSchema = false)
+@Database(entities = {User.class},version = 1)
 public abstract class SinoDatabase extends RoomDatabase {
 
     public abstract SinoDao sinoDao();

@@ -43,27 +43,29 @@ public class FragmentActivation extends Fragment {
     private String code = "";
     private User user;
 
+    public FragmentActivation() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_activation, container, false);
+        return inflater.inflate(R.layout.fragment_activation, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
 
         activationCode = view.findViewById(R.id.activationCode);
         progressView = view.findViewById(R.id.waitProgress);
         Util.hideProgress(progressView);
         activationCode.setText("");
 
-        if (getArguments() != null){
+        if (getArguments() != null) {
             user = getArguments().getParcelable("user");
         }
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
@@ -73,7 +75,7 @@ public class FragmentActivation extends Fragment {
                 if (activationCode.getText() != null) {
                     System.out.println("getMobileNo======" + user.getMobileNo());
                     System.out.println("activationCode======" + activationCode.getText().toString());
-                    if (user.getMobileNo() != null){
+                    if (user.getMobileNo() != null) {
                         code = GsonGenerator.sendActivationCodeToGson(user.getMobileNo(), activationCode.getText().toString());
                         if (code != null) {
                             viewModel.sendActivationCode(code, progressView);
@@ -81,8 +83,6 @@ public class FragmentActivation extends Fragment {
                             Log.e("TAG", "onClick: Code Is Null");
                         }
                     }
-
-
                 }
             }
         });

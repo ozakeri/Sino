@@ -2,8 +2,8 @@ package com.example.sino.utils.common;
 
 public class Constant {
 
-    public static final String SITE = "http://bis.isfahanptc.ir/";
-    //public static final String SITE = "http://192.168.2.53";
+    //public static final String SITE = "http://bis.isfahanptc.ir/";
+    public static final String SITE = "http://192.168.2.53";
 
     public static final String WS = SITE + "/rfServices/";
 

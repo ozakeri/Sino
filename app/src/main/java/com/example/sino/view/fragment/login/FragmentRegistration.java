@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.sino.R;
@@ -33,10 +34,18 @@ public class FragmentRegistration extends Fragment {
     private EditText mobileNo;
 
 
+    public FragmentRegistration() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_registration, container, false);
+        return inflater.inflate(R.layout.fragment_registration, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         mobileNo = view.findViewById(R.id.mobileNo);
 
@@ -45,12 +54,8 @@ public class FragmentRegistration extends Fragment {
         Util.hideProgress(progressView);
 
 
-        return view;
-    }
+        NavController navController = Navigation.findNavController(view);
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
         view.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
@@ -59,6 +64,7 @@ public class FragmentRegistration extends Fragment {
                 mobileToGson = GsonGenerator.mobileNoConfirmationToGson(mobileNo.getText().toString());
                 if (mobileToGson != null) {
                     viewModel.sendPhoneNumber(mobileToGson, progressView);
+
                 } else {
                     Log.e("TAG", "onClick: mobileNo Is Null");
                 }
@@ -72,21 +78,22 @@ public class FragmentRegistration extends Fragment {
 
                 if (successRegisterBean.getERROR() == null && successRegisterBean.getSUCCESS() != null) {
                     User user = viewModel.getUserByMobileNo(mobileNo.getText().toString());
-                    if (user == null){
+                    if (user == null) {
                         user = new User();
                         user.setMobileNo(mobileNo.getText().toString());
                         viewModel.insertUser(user);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("user", user);
+                        navController.navigate(R.id.action_fragmentRegistration_to_fragmentActivation, bundle);
+
+                        System.out.println("=====user == null======" + user.getName());
+
+                    } else {
+                        navController.navigate(R.id.action_fragmentRegistration_to_fragmentActivation);
+                        System.out.println("=====user != null======" + user.getName());
                     }
 
-                    System.out.println("===========" + user.getName());
-                    System.out.println("===========" + user.getFamily());
-                    System.out.println("===========" + user.getBisPassword());
-                    System.out.println("===========" + user.getMobileNo());
-                    System.out.println("===========" + user.getPictureBytes());
-
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable("user", user);
-                    Navigation.findNavController(view).navigate(R.id.action_fragmentRegistration_to_fragmentActivation,bundle);
                 } else {
                     Toast toast = Toast.makeText(getActivity(), successRegisterBean.getERROR(), Toast.LENGTH_LONG);
                     Util.showToast(toast, getActivity());
