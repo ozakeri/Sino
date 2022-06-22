@@ -15,6 +15,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.sino.R;
 import com.example.sino.model.SuccessActivationBean;
@@ -46,17 +48,17 @@ public class FragmentActivation extends Fragment {
     public FragmentActivation() {
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_activation, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        NavController navController = Navigation.findNavController(view);
 
         activationCode = view.findViewById(R.id.activationCode);
         progressView = view.findViewById(R.id.waitProgress);
@@ -65,6 +67,9 @@ public class FragmentActivation extends Fragment {
 
         if (getArguments() != null) {
             user = getArguments().getParcelable("user");
+            System.out.println("1==" + user.getMobileNo());
+            System.out.println("1==" + user.getName());
+            System.out.println("1==" + user.getFamily());
         }
 
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
@@ -73,8 +78,6 @@ public class FragmentActivation extends Fragment {
             @Override
             public void onClick(View view) {
                 if (activationCode.getText() != null) {
-                    System.out.println("getMobileNo======" + user.getMobileNo());
-                    System.out.println("activationCode======" + activationCode.getText().toString());
                     if (user.getMobileNo() != null) {
                         code = GsonGenerator.sendActivationCodeToGson(user.getMobileNo(), activationCode.getText().toString());
                         if (code != null) {

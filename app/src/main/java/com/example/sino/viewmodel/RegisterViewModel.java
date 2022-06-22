@@ -1,12 +1,17 @@
 package com.example.sino.viewmodel;
 
+import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.hilt.lifecycle.ViewModelInject;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.navigation.Navigation;
 
+import com.example.sino.R;
 import com.example.sino.api.NetworkRepository;
 import com.example.sino.model.SuccessActivationBean;
 import com.example.sino.model.SuccessRegisterBean;
@@ -20,12 +25,14 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+
 public class RegisterViewModel extends ViewModel {
 
     private static String TAG = RegisterViewModel.class.getSimpleName();
     private NetworkRepository repository;
     MutableLiveData<SuccessRegisterBean> registerMutableLiveData = new MutableLiveData<>();
     MutableLiveData<SuccessActivationBean> activationMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<View> viewMutableLiveData = new MutableLiveData<>();
 
     @ViewModelInject
     public RegisterViewModel(NetworkRepository repository) {
@@ -41,7 +48,7 @@ public class RegisterViewModel extends ViewModel {
         return activationMutableLiveData;
     }
 
-    public void sendPhoneNumber(String INPUT_PARAM, CircularProgressView progressView) {
+    public void sendPhoneNumber(String INPUT_PARAM, CircularProgressView progressView, View view) {
         System.out.println("INPUT_PARAM=" + INPUT_PARAM);
 
         Util.showProgress(progressView);
@@ -88,6 +95,5 @@ public class RegisterViewModel extends ViewModel {
     public LiveData<List<User>> getAllUser() {
         return repository.getAllUser();
     }
-
 
 }

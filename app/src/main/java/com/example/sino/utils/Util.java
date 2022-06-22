@@ -55,13 +55,11 @@ public class Util {
     public static String createJson(ArrayList<WSParameter> wsParameters) {
 
         RequestBaseBean requestBaseBean = new RequestBaseBean();
-        //System.out.println("getToken====" + requestBaseBean.getToken());
         JsonElement jsonElement = new Gson().toJsonTree(requestBaseBean);
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         for (WSParameter wsParameter : wsParameters)
             jsonObject.addProperty(wsParameter.key, wsParameter.value + "");
         String json = jsonObject.toString();
-        System.out.println("json======" + json);
         return json;
     }
 
@@ -90,7 +88,6 @@ public class Util {
                 } else {
                     TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
                     imei = telephonyManager.getDeviceId();
-                    System.out.println("imei===222===" + imei);
                 }
             }
         }

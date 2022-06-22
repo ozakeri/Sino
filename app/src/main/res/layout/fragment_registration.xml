@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:ignore="MissingDefaultResource">
+    tools:context=".view.activity.MainActivity">
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -62,17 +62,16 @@
                 android:layout_gravity="center_horizontal">
 
 
-
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/btn_confirm"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/teal_200"
                     android:gravity="center"
                     android:padding="12dp"
                     android:text="تایید"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:background="@color/teal_200"/>
+                    android:textStyle="bold" />
 
                 <com.github.rahatarmanahmed.cpv.CircularProgressView
                     android:id="@+id/waitProgress"
@@ -81,7 +80,8 @@
                     app:cpv_animAutostart="true"
                     app:cpv_color="@color/purple_700"
                     app:cpv_indeterminate="true"
-                    android:layout_centerInParent="true"/>
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"/>
 
 
             </RelativeLayout>

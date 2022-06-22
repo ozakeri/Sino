@@ -32,6 +32,7 @@ public class FragmentRegistration extends Fragment {
     private String mobileToGson = "";
     private CircularProgressView progressView;
     private EditText mobileNo;
+    private NavController navController;
 
 
     public FragmentRegistration() {
@@ -40,21 +41,18 @@ public class FragmentRegistration extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_registration, container, false);
+        View view = inflater.inflate(R.layout.fragment_registration, container, false);
+
+
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         mobileNo = view.findViewById(R.id.mobileNo);
-
-
         progressView = view.findViewById(R.id.waitProgress);
         Util.hideProgress(progressView);
-
-
-        NavController navController = Navigation.findNavController(view);
 
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
 
@@ -63,7 +61,7 @@ public class FragmentRegistration extends Fragment {
             public void onClick(View view) {
                 mobileToGson = GsonGenerator.mobileNoConfirmationToGson(mobileNo.getText().toString());
                 if (mobileToGson != null) {
-                    viewModel.sendPhoneNumber(mobileToGson, progressView);
+                    viewModel.sendPhoneNumber(mobileToGson, progressView, view);
 
                 } else {
                     Log.e("TAG", "onClick: mobileNo Is Null");
@@ -82,16 +80,16 @@ public class FragmentRegistration extends Fragment {
                         user = new User();
                         user.setMobileNo(mobileNo.getText().toString());
                         viewModel.insertUser(user);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("user", user);
-                        navController.navigate(R.id.action_fragmentRegistration_to_fragmentActivation, bundle);
+                        // Bundle bundle = new Bundle();
+                        // bundle.putParcelable("user", user);
+                        // Navigation.findNavController(view).navigate(R.id.fragmentActivation, bundle);
 
                         System.out.println("=====user == null======" + user.getName());
 
                     } else {
-                        navController.navigate(R.id.action_fragmentRegistration_to_fragmentActivation);
+                        //Navigation.findNavController(view).navigate(R.id.action_fragmentRegistration_to_fragmentActivation);
                         System.out.println("=====user != null======" + user.getName());
+
                     }
 
                 } else {
