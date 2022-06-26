@@ -31,8 +31,8 @@ public class User implements Parcelable {
     private Date lastLoginDate;
     private String companyName;
     private String picturePathUrl;
-    private Boolean autoLogin;
-    private Boolean loginIs;
+    private Boolean autoLogin = false;
+    private Boolean loginIs = false;
     @TypeConverters({PictureBytesConverter.class})
     private List<Integer> pictureBytes;
 

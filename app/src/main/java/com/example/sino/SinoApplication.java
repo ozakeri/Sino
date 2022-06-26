@@ -3,12 +3,21 @@ package com.example.sino;
 import android.app.Application;
 import android.content.pm.PackageManager;
 
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.sino.model.db.User;
+import com.example.sino.viewmodel.MainViewModel;
+
+import java.util.List;
+
 import dagger.hilt.android.HiltAndroidApp;
 
 @HiltAndroidApp
 public class SinoApplication extends Application {
 
     private static SinoApplication mInstance;
+    private User currentUser;
 
     @Override
     public void onCreate() {
@@ -29,5 +38,13 @@ public class SinoApplication extends Application {
         }
 
         return "0.0";
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }

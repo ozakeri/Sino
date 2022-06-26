@@ -5,7 +5,6 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.hilt.lifecycle.ViewModelInject;
-import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -13,6 +12,7 @@ import androidx.navigation.Navigation;
 
 import com.example.sino.R;
 import com.example.sino.api.NetworkRepository;
+import com.example.sino.model.Event;
 import com.example.sino.model.SuccessActivationBean;
 import com.example.sino.model.SuccessRegisterBean;
 import com.example.sino.model.db.User;
@@ -32,7 +32,7 @@ public class RegisterViewModel extends ViewModel {
     private NetworkRepository repository;
     MutableLiveData<SuccessRegisterBean> registerMutableLiveData = new MutableLiveData<>();
     MutableLiveData<SuccessActivationBean> activationMutableLiveData = new MutableLiveData<>();
-    MutableLiveData<View> viewMutableLiveData = new MutableLiveData<>();
+    private User currentUser;
 
     @ViewModelInject
     public RegisterViewModel(NetworkRepository repository) {
@@ -84,9 +84,6 @@ public class RegisterViewModel extends ViewModel {
                         , throwable -> Log.e(TAG, "sendActivationCode: " + throwable.getLocalizedMessage()));
     }
 
-    public void insertUser(User user) {
-        repository.insertUser(user);
-    }
 
     public User getUserByMobileNo(String mobileNo) {
         return repository.getUserByMobileNo(mobileNo);

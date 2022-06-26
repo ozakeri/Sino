@@ -13,14 +13,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.sino.R;
+import com.example.sino.SinoApplication;
 import com.example.sino.model.SuccessRegisterBean;
 import com.example.sino.model.db.User;
 import com.example.sino.utils.GsonGenerator;
 import com.example.sino.utils.Util;
+import com.example.sino.viewmodel.MainViewModel;
 import com.example.sino.viewmodel.RegisterViewModel;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
@@ -28,11 +29,11 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class FragmentRegistration extends Fragment {
-    private RegisterViewModel viewModel;
     private String mobileToGson = "";
     private CircularProgressView progressView;
     private EditText mobileNo;
-    private NavController navController;
+    private RegisterViewModel viewModel;
+    private MainViewModel mainViewModel;
 
 
     public FragmentRegistration() {
@@ -55,14 +56,15 @@ public class FragmentRegistration extends Fragment {
         Util.hideProgress(progressView);
 
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class);
+        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         view.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mobileToGson = GsonGenerator.mobileNoConfirmationToGson(mobileNo.getText().toString());
-                if (mobileToGson != null) {
-                    viewModel.sendPhoneNumber(mobileToGson, progressView, view);
 
+                if (mobileNo.getText() != null) {
+                    mobileToGson = GsonGenerator.mobileNoConfirmationToGson(mobileNo.getText().toString());
+                    viewModel.sendPhoneNumber(mobileToGson, progressView, view);
                 } else {
                     Log.e("TAG", "onClick: mobileNo Is Null");
                 }
@@ -75,22 +77,12 @@ public class FragmentRegistration extends Fragment {
             public void onChanged(SuccessRegisterBean successRegisterBean) {
 
                 if (successRegisterBean.getERROR() == null && successRegisterBean.getSUCCESS() != null) {
-                    User user = viewModel.getUserByMobileNo(mobileNo.getText().toString());
-                    if (user == null) {
-                        user = new User();
-                        user.setMobileNo(mobileNo.getText().toString());
-                        viewModel.insertUser(user);
-                        // Bundle bundle = new Bundle();
-                        // bundle.putParcelable("user", user);
-                        // Navigation.findNavController(view).navigate(R.id.fragmentActivation, bundle);
-
-                        System.out.println("=====user == null======" + user.getName());
-
-                    } else {
-                        //Navigation.findNavController(view).navigate(R.id.action_fragmentRegistration_to_fragmentActivation);
-                        System.out.println("=====user != null======" + user.getName());
-
-                    }
+                    User user = new User();
+                    user.setMobileNo(mobileNo.getText().toString());
+                    mainViewModel.insertUser(user);
+                    SinoApplication.getInstance().setCurrentUser(user);
+                    getActivity().recreate();
+                    Navigation.findNavController(view).navigate(R.id.fragmentActivation);
 
                 } else {
                     Toast toast = Toast.makeText(getActivity(), successRegisterBean.getERROR(), Toast.LENGTH_LONG);

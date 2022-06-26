@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentRegistration">
+
+    <fragment
+        android:id="@+id/fragmentRegistration"
+        android:name="com.example.sino.view.fragment.login.FragmentRegistration"
+        android:label="FragmentRegistration"
+        tools:layout="@layout/fragment_registration"/>
+    <fragment
+        android:id="@+id/fragmentActivation"
+        android:name="com.example.sino.view.fragment.login.FragmentActivation"
+        android:label="FragmentActivation"
+        tools:layout="@layout/fragment_activation"/>
+    <fragment
+        android:id="@+id/createPasswordFragment"
+        android:name="com.example.sino.view.fragment.login.CreatePasswordFragment"
+        android:label="fragment_create_password"
+        tools:layout="@layout/fragment_create_password" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.sino.view.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+</navigation>
