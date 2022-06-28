@@ -13,7 +13,7 @@ import com.example.sino.utils.PictureBytesConverter;
 import java.util.Date;
 import java.util.List;
 
-@Entity(tableName = "user")
+@Entity(tableName = "sino_table")
 public class User implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private Long id;

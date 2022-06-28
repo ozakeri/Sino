@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import com.example.sino.model.db.ChatGroup;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
 
@@ -20,11 +21,14 @@ public interface SinoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPermission(UserPermission permission);
 
-    @Query("SELECT * FROM user WHERE mobileNo=:mobileNo")
+    @Query("SELECT * FROM sino_table WHERE mobileNo=:mobileNo")
     User getUserByMobileNo(String mobileNo);
 
-    @Query("SELECT * FROM user")
+    @Query("SELECT * FROM sino_table")
     LiveData<List<User>> getAllUser();
+
+    @Query("SELECT * FROM sino_table")
+    List<ChatGroup> getChatGroupList();
 
     @Query("SELECT * FROM permission WHERE userId=:userId")
     List<UserPermission> getUserPermissionListByUserId(Long userId);

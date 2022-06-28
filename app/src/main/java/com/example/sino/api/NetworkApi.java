@@ -1,6 +1,7 @@
 package com.example.sino.api;
 
 import com.example.sino.model.SuccessActivationBean;
+import com.example.sino.model.SuccessChatReceiveBean;
 import com.example.sino.model.SuccessPermissionBean;
 import com.example.sino.model.SuccessRegisterBean;
 
@@ -18,4 +19,7 @@ public interface NetworkApi {
 
     @GET("/rfServices/getUserPermissionList?")
     Observable<SuccessPermissionBean> getUserPermissionListApi(@Query("INPUT_PARAM") String INPUT_PARAM);
+
+    @GET("/rfServices/getUserChatMessageList?")
+    Observable<SuccessChatReceiveBean> getUserChatMessageListApi(@Query("INPUT_PARAM") String INPUT_PARAM);
 }
