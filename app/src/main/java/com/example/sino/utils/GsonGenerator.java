@@ -21,4 +21,12 @@ public class GsonGenerator {
         //json = URLEncoder.encode(json);
         return Util.createJson(wsParameters);
     }
+
+    public static String getUserPermissionList(String username,String tokenPass) {
+        ArrayList<Util.WSParameter> wsParameters = new ArrayList<>();
+        wsParameters.add(new Util.WSParameter("username", username));
+        wsParameters.add(new Util.WSParameter("tokenPass", tokenPass));
+        //json = URLEncoder.encode(json);
+        return Util.createJson(wsParameters);
+    }
 }

@@ -5,8 +5,10 @@ import androidx.lifecycle.LiveData;
 
 import com.example.sino.db.SinoDao;
 import com.example.sino.model.SuccessActivationBean;
+import com.example.sino.model.SuccessPermissionBean;
 import com.example.sino.model.SuccessRegisterBean;
 import com.example.sino.model.db.User;
+import com.example.sino.model.db.UserPermission;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class NetworkRepository {
     private SinoDao sinoDao;
 
     @Inject
-    public NetworkRepository(NetworkApi networkApi, SinoDao sinoDao) {
+    public NetworkRepository(NetworkApi networkApi,SinoDao sinoDao) {
         this.networkApi = networkApi;
         this.sinoDao = sinoDao;
     }
@@ -33,8 +35,24 @@ public class NetworkRepository {
         return networkApi.activeCodeConfirmation(INPUT_PARAM + "&IS_ENCRYPED=false");
     }
 
+    public Observable<SuccessPermissionBean> getUserPermissionListRepo(String INPUT_PARAM) {
+        return networkApi.getUserPermissionListApi(INPUT_PARAM + "&IS_ENCRYPED=false");
+    }
+
     public void insertUser(User user) {
         sinoDao.insertUser(user);
+    }
+
+    public void insertPermission(UserPermission permission) {
+        sinoDao.insertPermission(permission);
+    }
+
+    public void deletePermission(Long userId, String permissionName) {
+        sinoDao.deletePermission(userId,permissionName);
+    }
+
+    public void deletePermissionByUserId(Long userId) {
+        sinoDao.deletePermissionByUserId(userId);
     }
 
     public User getUserByMobileNo(String mobileNo) {
@@ -43,5 +61,9 @@ public class NetworkRepository {
 
     public LiveData<List<User>> getAllUser() {
         return sinoDao.getAllUser();
+    }
+
+    public List<UserPermission> getUserPermissionList(Long userId) {
+        return sinoDao.getUserPermissionListByUserId(userId);
     }
 }

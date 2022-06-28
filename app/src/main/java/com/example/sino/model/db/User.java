@@ -36,6 +36,51 @@ public class User implements Parcelable {
     @TypeConverters({PictureBytesConverter.class})
     private List<Integer> pictureBytes;
 
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readLong();
+        }
+        if (in.readByte() == 0) {
+            serverUserId = null;
+        } else {
+            serverUserId = in.readLong();
+        }
+        name = in.readString();
+        family = in.readString();
+        mobileNo = in.readString();
+        username = in.readString();
+        password = in.readString();
+        bisPassword = in.readString();
+        if (in.readByte() == 0) {
+            loginStatus = null;
+        } else {
+            loginStatus = in.readInt();
+        }
+        companyName = in.readString();
+        picturePathUrl = in.readString();
+        byte tmpAutoLogin = in.readByte();
+        autoLogin = tmpAutoLogin == 0 ? null : tmpAutoLogin == 1;
+        byte tmpLoginIs = in.readByte();
+        loginIs = tmpLoginIs == 0 ? null : tmpLoginIs == 1;
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     public Long getId() {
         return id;
     }
@@ -171,6 +216,33 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(id);
+        }
+        if (serverUserId == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeLong(serverUserId);
+        }
+        parcel.writeString(name);
+        parcel.writeString(family);
+        parcel.writeString(mobileNo);
+        parcel.writeString(username);
+        parcel.writeString(password);
+        parcel.writeString(bisPassword);
+        if (loginStatus == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(loginStatus);
+        }
+        parcel.writeString(companyName);
+        parcel.writeString(picturePathUrl);
+        parcel.writeByte((byte) (autoLogin == null ? 0 : autoLogin ? 1 : 2));
+        parcel.writeByte((byte) (loginIs == null ? 0 : loginIs ? 1 : 2));
     }
 }

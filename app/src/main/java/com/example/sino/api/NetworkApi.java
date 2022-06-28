@@ -1,6 +1,7 @@
 package com.example.sino.api;
 
 import com.example.sino.model.SuccessActivationBean;
+import com.example.sino.model.SuccessPermissionBean;
 import com.example.sino.model.SuccessRegisterBean;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -14,4 +15,7 @@ public interface NetworkApi {
 
     @GET("/rfServices/activationCodeValidation?")
     Observable<SuccessActivationBean> activeCodeConfirmation(@Query("INPUT_PARAM") String INPUT_PARAM);
+
+    @GET("/rfServices/getUserPermissionList?")
+    Observable<SuccessPermissionBean> getUserPermissionListApi(@Query("INPUT_PARAM") String INPUT_PARAM);
 }

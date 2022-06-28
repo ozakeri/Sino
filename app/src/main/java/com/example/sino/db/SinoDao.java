@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.sino.model.db.User;
+import com.example.sino.model.db.UserPermission;
 
 import java.util.List;
 
@@ -16,9 +17,22 @@ public interface SinoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertUser(User user);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insertPermission(UserPermission permission);
+
     @Query("SELECT * FROM user WHERE mobileNo=:mobileNo")
     User getUserByMobileNo(String mobileNo);
 
     @Query("SELECT * FROM user")
     LiveData<List<User>> getAllUser();
+
+    @Query("SELECT * FROM permission WHERE userId=:userId")
+    List<UserPermission> getUserPermissionListByUserId(Long userId);
+
+    @Query("DELETE FROM permission WHERE userId=:userId & permissionName=:permissionName")
+    void deletePermission(Long userId, String permissionName);
+
+    @Query("DELETE FROM permission WHERE userId=:userId")
+    void deletePermissionByUserId(Long userId);
+
 }

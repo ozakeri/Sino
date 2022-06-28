@@ -1,42 +1,42 @@
 package com.example.sino.viewmodel;
 
-import android.os.Bundle;
+import android.app.Application;
 import android.util.Log;
 import android.view.View;
 
-import androidx.hilt.lifecycle.ViewModelInject;
-import androidx.lifecycle.LiveData;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-import androidx.navigation.Navigation;
 
-import com.example.sino.R;
 import com.example.sino.api.NetworkRepository;
-import com.example.sino.model.Event;
 import com.example.sino.model.SuccessActivationBean;
 import com.example.sino.model.SuccessRegisterBean;
 import com.example.sino.model.db.User;
 import com.example.sino.utils.Util;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
-import java.util.List;
+import javax.inject.Inject;
 
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.functions.Function;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
-public class RegisterViewModel extends ViewModel {
+@HiltViewModel
+public class RegisterViewModel extends AndroidViewModel {
 
     private static String TAG = RegisterViewModel.class.getSimpleName();
-    private NetworkRepository repository;
     MutableLiveData<SuccessRegisterBean> registerMutableLiveData = new MutableLiveData<>();
     MutableLiveData<SuccessActivationBean> activationMutableLiveData = new MutableLiveData<>();
-    private User currentUser;
 
-    @ViewModelInject
-    public RegisterViewModel(NetworkRepository repository) {
-        this.repository = repository;
+    @Inject
+    NetworkRepository repository;
+
+    @Inject
+    public RegisterViewModel(@NonNull Application application) {
+        super(application);
+
     }
 
 
@@ -84,13 +84,7 @@ public class RegisterViewModel extends ViewModel {
                         , throwable -> Log.e(TAG, "sendActivationCode: " + throwable.getLocalizedMessage()));
     }
 
-
     public User getUserByMobileNo(String mobileNo) {
         return repository.getUserByMobileNo(mobileNo);
     }
-
-    public LiveData<List<User>> getAllUser() {
-        return repository.getAllUser();
-    }
-
 }
