@@ -22,4 +22,7 @@ public interface NetworkApi {
 
     @GET("/rfServices/getUserChatMessageList?")
     Observable<SuccessChatReceiveBean> getUserChatMessageListApi(@Query("INPUT_PARAM") String INPUT_PARAM);
+
+    @GET("/rfServices/chatMessageDeliveredReport?")
+    Observable<SuccessChatReceiveBean> chatMessageDeliveredReportApi(@Query("INPUT_PARAM") String INPUT_PARAM);
 }

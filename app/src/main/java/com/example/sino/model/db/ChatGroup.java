@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 import androidx.room.TypeConverters;
 
-import com.example.sino.utils.ChatGroupMemberListConverter;
-import com.example.sino.utils.ChatMessageListConverter;
+import com.example.sino.utils.converters.ChatGroupMemberListConverter;
+import com.example.sino.utils.converters.ChatMessageListConverter;
 
 import java.util.List;
 

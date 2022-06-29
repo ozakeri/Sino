@@ -3,6 +3,7 @@ package com.example.sino.model.db;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.Expose;
@@ -10,8 +11,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
+@Entity(tableName = "chat_message")
 public class ChatMessage implements Parcelable {
-
 
     @SerializedName("chatGroupId")
     @Expose

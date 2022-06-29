@@ -79,6 +79,10 @@ public class MainViewModel extends AndroidViewModel {
         return repository.getUserChatMessageListRepo(INPUT_PARAM);
     }
 
+    public Observable<SuccessChatReceiveBean> chatMessageDeliveredReportVM(String INPUT_PARAM) {
+        return repository.chatMessageDeliveredReportRepo(INPUT_PARAM);
+    }
+
     @Override
     protected void onCleared() {
         super.onCleared();

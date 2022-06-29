@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GsonGenerator {
 
@@ -26,6 +27,15 @@ public class GsonGenerator {
         ArrayList<Util.WSParameter> wsParameters = new ArrayList<>();
         wsParameters.add(new Util.WSParameter("username", username));
         wsParameters.add(new Util.WSParameter("tokenPass", tokenPass));
+        //json = URLEncoder.encode(json);
+        return Util.createJson(wsParameters);
+    }
+
+    public static String chatMessageDeliveredReport(String username, String tokenPass, List<Long> messageIdList) {
+        ArrayList<Util.WSParameter> wsParameters = new ArrayList<>();
+        wsParameters.add(new Util.WSParameter("username", username));
+        wsParameters.add(new Util.WSParameter("tokenPass", tokenPass));
+        wsParameters.add(new Util.WSParameter("messageIdList", messageIdList));
         //json = URLEncoder.encode(json);
         return Util.createJson(wsParameters);
     }

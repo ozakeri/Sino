@@ -1,4 +1,4 @@
-package com.example.sino.utils;
+package com.example.sino.utils.converters;
 
 import androidx.room.TypeConverter;
 

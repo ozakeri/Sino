@@ -1,4 +1,4 @@
-package com.example.sino.utils.adapter;
+package com.example.sino.view.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sino.R;
-import com.example.sino.model.db.UserPermission;
 
 import java.util.List;
 

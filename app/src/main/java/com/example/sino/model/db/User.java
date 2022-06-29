@@ -7,8 +7,8 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.example.sino.utils.DateConverter;
-import com.example.sino.utils.PictureBytesConverter;
+import com.example.sino.utils.converters.DateConverter;
+import com.example.sino.utils.converters.PictureBytesConverter;
 
 import java.util.Date;
 import java.util.List;

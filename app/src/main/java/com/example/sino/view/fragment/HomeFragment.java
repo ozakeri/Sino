@@ -15,23 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sino.R;
 import com.example.sino.SinoApplication;
-import com.example.sino.model.SuccessChatReceiveBean;
 import com.example.sino.model.SuccessPermissionBean;
-import com.example.sino.model.db.ChatGroup;
-import com.example.sino.model.db.ChatMessage;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
 import com.example.sino.utils.GsonGenerator;
 import com.example.sino.utils.Util;
-import com.example.sino.utils.adapter.HomeAdapterRV;
+import com.example.sino.view.adapter.HomeAdapterRV;
 import com.example.sino.viewmodel.MainViewModel;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -49,7 +43,6 @@ public class HomeFragment extends Fragment {
     private String inputParam = "";
     private CompositeDisposable compositeDisposable;
     private SuccessPermissionBean successPermissionBean;
-    private SuccessChatReceiveBean successChatReceiveBean;
     private RecyclerView recyclerViewPermission;
     private List<String> permissionList = new ArrayList<>();
     private CircularProgressView progressView;
@@ -66,7 +59,7 @@ public class HomeFragment extends Fragment {
         compositeDisposable = new CompositeDisposable();
         inputParam = GsonGenerator.getUserPermissionList(user.getUsername(), user.getBisPassword());
         callApiRequest();
-        getUserChatMessageList();
+
         return view;
     }
 
@@ -205,55 +198,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void getUserChatMessageList() {
-        mainViewModel.getUserChatMessageListVM(inputParam)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<SuccessChatReceiveBean>() {
-                    @Override
-                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
-                        compositeDisposable.add(d);
-                    }
 
-                    @Override
-                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull SuccessChatReceiveBean successChatReceive) {
-                        successChatReceiveBean = successChatReceive;
-                    }
-
-                    @Override
-                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-                        Log.e("TAG", "onError: " + e.getLocalizedMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        if (successChatReceiveBean.getRESULT() != null) {
-                            if (successChatReceiveBean.getRESULT().getChatMessageReceiverList().size() > 0) {
-                                List<ChatGroup> chatGroupList = mainViewModel.getChatGroupList();
-                                Map<Long, ChatGroup> chatGroupMap = new HashMap<>();
-                                for (ChatGroup chatGroup : chatGroupList) {
-                                    chatGroupMap.put(chatGroup.getServerGroupId(), chatGroup);
-                                }
-
-                                for (int i = 0; i < successChatReceiveBean.getRESULT().getChatMessageReceiverList().size(); i++) {
-                                    ChatMessage message = successChatReceiveBean.getRESULT().getChatMessageReceiverList().get(i).chatMessage;
-                                    ChatMessage chatMessage = new ChatMessage();
-                                    chatMessage.setReadIs(false);
-                                    chatMessage.setDeliverIs(true);
-                                    chatMessage.setDeliverDate(new Date());
-                                    chatMessage.setAttachFileSize(0);
-                                    chatMessage.setAttachFileReceivedSize(0);
-
-                                    System.out.println("message====" + message.id);
-                                    System.out.println("message====" + message.getMessage());
-                                    System.out.println("message====" + message.getDeliverIs());
-                                    System.out.println("message====" + message.getAttachFileUserFileName());
-                                }
-                            }
-                        }
-                    }
-                });
-    }
 
     @Override
     public void onDestroy() {

@@ -45,6 +45,10 @@ public class NetworkRepository {
         return networkApi.getUserChatMessageListApi(INPUT_PARAM + "&IS_ENCRYPED=false");
     }
 
+    public Observable<SuccessChatReceiveBean> chatMessageDeliveredReportRepo(String INPUT_PARAM) {
+        return networkApi.chatMessageDeliveredReportApi(INPUT_PARAM + "&IS_ENCRYPED=false");
+    }
+
     public void insertUser(User user) {
         sinoDao.insertUser(user);
     }
