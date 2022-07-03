@@ -12,7 +12,7 @@ import com.example.sino.api.NetworkRepository;
 import com.example.sino.model.SuccessActivationBean;
 import com.example.sino.model.SuccessRegisterBean;
 import com.example.sino.model.db.User;
-import com.example.sino.utils.Util;
+import com.example.sino.utils.common.Util;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
 import javax.inject.Inject;

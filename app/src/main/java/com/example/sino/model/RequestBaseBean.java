@@ -1,11 +1,10 @@
 package com.example.sino.model;
 
-import android.app.Application;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.sino.SinoApplication;
-import com.example.sino.utils.Util;
+import com.example.sino.utils.common.Util;
 
 public class RequestBaseBean implements Parcelable {
 

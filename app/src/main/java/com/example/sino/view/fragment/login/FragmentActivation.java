@@ -24,7 +24,7 @@ import com.example.sino.SinoApplication;
 import com.example.sino.model.SuccessActivationBean;
 import com.example.sino.model.db.User;
 import com.example.sino.utils.GsonGenerator;
-import com.example.sino.utils.Util;
+import com.example.sino.utils.common.Util;
 import com.example.sino.utils.common.Constant;
 import com.example.sino.viewmodel.MainViewModel;
 import com.example.sino.viewmodel.RegisterViewModel;

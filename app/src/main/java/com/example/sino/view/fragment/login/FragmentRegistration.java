@@ -20,7 +20,7 @@ import com.example.sino.SinoApplication;
 import com.example.sino.model.SuccessRegisterBean;
 import com.example.sino.model.db.User;
 import com.example.sino.utils.GsonGenerator;
-import com.example.sino.utils.Util;
+import com.example.sino.utils.common.Util;
 import com.example.sino.viewmodel.MainViewModel;
 import com.example.sino.viewmodel.RegisterViewModel;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;

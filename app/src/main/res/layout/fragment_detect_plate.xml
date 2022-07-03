@@ -129,9 +129,9 @@
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:text="وارد کردن اطلاعات بصورت دستی"
+                android:textColor="@color/mdtp_red_focused"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/mdtp_red_focused"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
 

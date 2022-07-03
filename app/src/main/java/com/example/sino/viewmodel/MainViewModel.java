@@ -16,6 +16,7 @@ import com.example.sino.model.SuccessPermissionBean;
 import com.example.sino.model.db.ChatGroup;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
+import com.example.sino.model.db.carinfo.SuccessCarInfoBean;
 
 import java.util.List;
 
@@ -81,6 +82,10 @@ public class MainViewModel extends AndroidViewModel {
 
     public Observable<SuccessChatReceiveBean> chatMessageDeliveredReportVM(String INPUT_PARAM) {
         return repository.chatMessageDeliveredReportRepo(INPUT_PARAM);
+    }
+
+    public Observable<SuccessCarInfoBean> getCarInfoVM(String INPUT_PARAM) {
+        return repository.getCarInfoRepo(INPUT_PARAM);
     }
 
     @Override

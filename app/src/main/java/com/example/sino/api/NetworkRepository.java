@@ -11,6 +11,7 @@ import com.example.sino.model.SuccessRegisterBean;
 import com.example.sino.model.db.ChatGroup;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
+import com.example.sino.model.db.carinfo.SuccessCarInfoBean;
 
 import java.util.List;
 
@@ -47,6 +48,10 @@ public class NetworkRepository {
 
     public Observable<SuccessChatReceiveBean> chatMessageDeliveredReportRepo(String INPUT_PARAM) {
         return networkApi.chatMessageDeliveredReportApi(INPUT_PARAM + "&IS_ENCRYPED=false");
+    }
+
+    public Observable<SuccessCarInfoBean> getCarInfoRepo(String INPUT_PARAM) {
+        return networkApi.getCarInfoApi(INPUT_PARAM + "&IS_ENCRYPED=false");
     }
 
     public void insertUser(User user) {

@@ -4,6 +4,7 @@ import com.example.sino.model.SuccessActivationBean;
 import com.example.sino.model.SuccessChatReceiveBean;
 import com.example.sino.model.SuccessPermissionBean;
 import com.example.sino.model.SuccessRegisterBean;
+import com.example.sino.model.db.carinfo.SuccessCarInfoBean;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.GET;
@@ -25,4 +26,7 @@ public interface NetworkApi {
 
     @GET("/rfServices/chatMessageDeliveredReport?")
     Observable<SuccessChatReceiveBean> chatMessageDeliveredReportApi(@Query("INPUT_PARAM") String INPUT_PARAM);
+
+    @GET("/rfServices/getCarInfo?")
+    Observable<SuccessCarInfoBean> getCarInfoApi(@Query("INPUT_PARAM") String INPUT_PARAM);
 }
