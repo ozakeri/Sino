@@ -5,7 +5,11 @@ import android.os.Parcelable;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 
+import com.example.sino.utils.converters.AppUserConverter;
+import com.example.sino.utils.converters.ChatMessageConverter;
+import com.example.sino.utils.converters.DateConverter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -35,6 +39,7 @@ public class ChatMessage implements Parcelable {
     @SerializedName("attachFileUserFileName")
     @Expose
     public String attachFileUserFileName;
+    @PrimaryKey
     @SerializedName("id")
     @Expose
     public Integer id;
@@ -52,22 +57,28 @@ public class ChatMessage implements Parcelable {
     public Integer userCreationId;
 
     private Long serverMessageId;
+    @TypeConverters({DateConverter.class})
     private java.util.Date validUntilDate;
     private String message;
     private String attachFileLocalPath;
     private String attachFileRemoteUrl;
     private Boolean deliverIs;
+    @TypeConverters({DateConverter.class})
     private java.util.Date deliverDate;
     private Boolean readIs;
+    @TypeConverters({DateConverter.class})
     private java.util.Date readDate;
     private Integer sendingStatusEn;
+    @TypeConverters({DateConverter.class})
     private java.util.Date sendingStatusDate;
     private Integer attachFileSentSize;
     private Integer attachFileReceivedSize;
     private Long senderAppUserId;
     private Long receiverAppUserId;
+    @TypeConverters({AppUserConverter.class})
     private AppUser senderAppUser;
     private boolean localAttachFileExist;
+    @TypeConverters({DateConverter.class})
     private java.util.Date readDateFrom;
     private Long senderAppUserIdNot;
 

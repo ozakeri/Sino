@@ -23,7 +23,7 @@ public class DatabaseRepository {
         return sinoDao.getChatMessagesByServerMessageId(id);
     }
 
-    public ChatMessage insertChatMessageRepo(ChatMessage chatMessage) {
+    public Long insertChatMessageRepo(ChatMessage chatMessage) {
         return sinoDao.insertChatMessage(chatMessage);
     }
 }

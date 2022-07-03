@@ -23,7 +23,7 @@ public interface SinoDao {
     void insertPermission(UserPermission permission);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    ChatMessage insertChatMessage(ChatMessage chatMessage);
+    Long insertChatMessage(ChatMessage chatMessage);
 
     @Query("SELECT * FROM sino_table WHERE mobileNo=:mobileNo")
     User getUserByMobileNo(String mobileNo);

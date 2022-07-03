@@ -134,12 +134,12 @@ public class ChatMessageFragment extends Fragment {
                                 for (ChatMessage chatMessage : chatMessageList) {
                                     List<ChatMessage> tmpChatMessageList = viewModel.getChatMessagesByServerMessageIdVM(chatMessage.getServerMessageId());
                                     if (tmpChatMessageList.isEmpty()) {
-                                        chatMessage = viewModel.insertChatMessageVM(chatMessage);
+                                        viewModel.insertChatMessageVM(chatMessage);
                                         messageIdList.add(Long.valueOf(chatMessage.getId()));
                                     }
                                 }
 
-                                inputParam = GsonGenerator.chatMessageDeliveredReport(user.getUsername(), user.getBisPassword(),messageIdList);
+                                inputParam = GsonGenerator.chatMessageDeliveredReport(user.getUsername(), user.getBisPassword(), messageIdList);
                                 callChatMessageDeliveredReport();
                             }
                         }

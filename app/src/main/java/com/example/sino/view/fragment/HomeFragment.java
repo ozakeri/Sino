@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,19 +47,26 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewPermission;
     private List<String> permissionList = new ArrayList<>();
     private CircularProgressView progressView;
+    private HomeAdapterRV adapterRV;
+    private View view;
+    private List<UserPermission> userPermissionList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        initVeiw(view);
-        mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
-        user = SinoApplication.getInstance().getCurrentUser();
-        compositeDisposable = new CompositeDisposable();
-        inputParam = GsonGenerator.getUserPermissionList(user.getUsername(), user.getBisPassword());
-        callApiRequest();
+
+        if (view == null) {
+            System.out.println("===viewnull===");
+            view = inflater.inflate(R.layout.fragment_home, container, false);
+            initVeiw(view);
+            mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+            user = SinoApplication.getInstance().getCurrentUser();
+            compositeDisposable = new CompositeDisposable();
+            inputParam = GsonGenerator.getUserPermissionList(user.getUsername(), user.getBisPassword());
+            callApiRequest();
+        }
 
         return view;
     }
@@ -72,13 +80,14 @@ public class HomeFragment extends Fragment {
         };
         recyclerViewPermission.setLayoutManager(mLayoutManager);
 
-        List<UserPermission> userPermissionList = mainViewModel.getUserPermission(user.getId());
+        userPermissionList = mainViewModel.getUserPermission(user.getId());
         for (UserPermission s : userPermissionList) {
             if (s.getPermissionName().equals("ROLE_APP_INSPECTION_DRIVER_VIEW_LIST")) {
                 permissionList.add("ROLE_APP_INSPECTION_DRIVER_VIEW_LIST");
             }
             if (s.getPermissionName().equals("ROLE_APP_INSPECTION_CAR_VIEW_LIST")) {
                 permissionList.add("ROLE_APP_INSPECTION_CAR_VIEW_LIST");
+                permissionList.add("PLATE_DETECT");
             }
             if (s.getPermissionName().equals("ROLE_APP_INSPECTION_LINE_VIEW_LIST")) {
                 permissionList.add("ROLE_APP_INSPECTION_LINE_VIEW_LIST");
@@ -103,13 +112,59 @@ public class HomeFragment extends Fragment {
                 permissionList.add("ROLE_APP_INSPECTION_CREATE_COMPLAINT_REPORT");
 
             }
-            if (s.getPermissionName().equals("ROLE_APP_INSPECTION_READ_NOTIFICATION_MESSAGE_LIST") ||
-                    s.getPermissionName().equals("ROLE_APP_INSPECTION_WRITE_NOTIFICATION_MESSAGE")) {
+            if (s.getPermissionName().equals("ROLE_APP_INSPECTION_READ_NOTIFICATION_MESSAGE_LIST")) {
                 permissionList.add("ROLE_APP_INSPECTION_WRITE_NOTIFICATION_MESSAGE");
             }
         }
         recyclerViewPermission.setVisibility(View.VISIBLE);
-        recyclerViewPermission.setAdapter(new HomeAdapterRV(permissionList));
+        adapterRV = new HomeAdapterRV(permissionList);
+        recyclerViewPermission.setAdapter(adapterRV);
+        adapterRV.setOnItemClickListener(new HomeAdapterRV.ClickListener() {
+            @Override
+            public void onItemClick(int position, View v) {
+
+                switch (position) {
+                    case 0:
+                        System.out.println("position=====" + position);
+                        break;
+
+                    case 1:
+                        System.out.println("position=====" + position);
+                        break;
+
+                    case 2:
+                        System.out.println("position=====" + position);
+                        break;
+
+                    case 3:
+                        System.out.println("position=====" + position);
+                        Navigation.findNavController(view).navigate(R.id.detectPlateFragment);
+                        break;
+
+                    case 4:
+                        System.out.println("position=====" + position);
+                        break;
+
+                    case 5:
+                        System.out.println("position=====" + position);
+                        break;
+
+                    case 6:
+                        System.out.println("position=====" + position);
+                        break;
+
+                    case 7:
+                        System.out.println("position=====" + position);
+                        break;
+
+                    case 8:
+                        System.out.println("position=====" + position);
+                        break;
+
+                }
+            }
+        });
+
     }
 
     private void initVeiw(View view) {
@@ -123,31 +178,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-
-
-                /*mainViewModel.getUserPermissionListResult().observe(getViewLifecycleOwner(), new Observer<SuccessPermissionBean>() {
-            @Override
-            public void onChanged(SuccessPermissionBean permissionBean) {
-
-                if (permissionBean.getRESULT() != null) {
-                    if (permissionBean.getRESULT().getUserPermissionList().size() > 0) {
-                        List<String> userPermissionList = permissionBean.getRESULT().getUserPermissionList();
-                        for (String p : userPermissionList) {
-                            UserPermission userPermission = new UserPermission();
-                            userPermission.setUserId(user.getId());
-                            userPermission.setPermissionName(p);
-                            mainViewModel.insertPermission(userPermission);
-                        }
-
-                        System.out.println("userPermissionList====" + userPermissionList.size());
-                    }
-                }
-
-                System.out.println("permissionBean====" + permissionBean.getSUCCESS());
-                System.out.println("permissionBean====" + permissionBean.getRESULT());
-                System.out.println("permissionBean====" + permissionBean.getERROR());
-            }
-        });*/
 
     }
 
@@ -199,10 +229,15 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         compositeDisposable.clear();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        System.out.println("====onDetach====");
     }
 }

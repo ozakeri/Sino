@@ -3,7 +3,11 @@ package com.example.sino.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+
 import com.example.sino.model.db.ChatMessage;
+import com.example.sino.utils.converters.ChatMessageConverter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -29,6 +33,8 @@ public class ChatMessageReceiver implements Parcelable {
     @SerializedName("status_text")
     @Expose
     public String statusText;
+
+    @TypeConverters(ChatMessageConverter.class)
     @SerializedName("chatMessage")
     @Expose
     public ChatMessage chatMessage;

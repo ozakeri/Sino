@@ -25,4 +25,9 @@
         android:name="com.example.sino.view.fragment.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/detectPlateFragment"
+        android:name="com.example.sino.view.fragment.platedetection.DetectPlateFragment"
+        android:label="fragment_detect_plate"
+        tools:layout="@layout/fragment_detect_plate" />
 </navigation>

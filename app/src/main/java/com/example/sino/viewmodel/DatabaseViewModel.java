@@ -29,7 +29,7 @@ public class DatabaseViewModel extends AndroidViewModel {
         return repository.getChatMessagesByServerMessageIdRepo(id);
     }
 
-    public ChatMessage insertChatMessageVM(ChatMessage chatMessage) {
+    public Long insertChatMessageVM(ChatMessage chatMessage) {
         return repository.insertChatMessageRepo(chatMessage);
     }
 }

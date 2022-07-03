@@ -6,8 +6,14 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
 
-    <color name="colorPrimary">#ff326875</color>
-    <color name="colorPrimaryDark">#142a5d</color>
+    <color name="colorPrimary">#ffec40</color>
+    <color name="colorPrimaryDark">#ffc600</color>
+
+    <color name="pino_one">#ffc600</color>
+    <color name="pino_two">#fc8900</color>
+    <color name="pino_three">#ffec40</color>
+    <color name="pino_four">#ffdf6d</color>
+
     <color name="textColorPrimary">#000000</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>

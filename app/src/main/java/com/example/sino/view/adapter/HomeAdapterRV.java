@@ -16,6 +16,7 @@ import java.util.List;
 public class HomeAdapterRV extends RecyclerView.Adapter<HomeAdapterRV.CustomView> {
 
     private List<String> userPermissionList;
+    private static ClickListener clickListener;
 
     public HomeAdapterRV(List<String> userPermissionList) {
         this.userPermissionList = userPermissionList;
@@ -68,6 +69,9 @@ public class HomeAdapterRV extends RecyclerView.Adapter<HomeAdapterRV.CustomView
             } else if (permissionName.equals("ROLE_APP_INSPECTION_WRITE_NOTIFICATION_MESSAGE")) {
                 holder.txt_permissionTitle.setText("پیام ها");
                 holder.img_permissionPic.setBackgroundResource(R.drawable.main_icon_message);
+            }else if (permissionName.equals("PLATE_DETECT")) {
+                holder.txt_permissionTitle.setText("پلاک خوان");
+                holder.img_permissionPic.setBackgroundResource(R.drawable.read_plate_icon);
             }
 
         }
@@ -78,7 +82,7 @@ public class HomeAdapterRV extends RecyclerView.Adapter<HomeAdapterRV.CustomView
         return userPermissionList.size();
     }
 
-    public class CustomView extends RecyclerView.ViewHolder {
+    public class CustomView extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView img_permissionPic;
         TextView txt_permissionTitle;
 
@@ -87,7 +91,22 @@ public class HomeAdapterRV extends RecyclerView.Adapter<HomeAdapterRV.CustomView
 
             img_permissionPic = itemView.findViewById(R.id.img_permissionPic);
             txt_permissionTitle = itemView.findViewById(R.id.txt_permissionTitle);
-
+            itemView.setOnClickListener(this);
         }
+
+
+
+        @Override
+        public void onClick(View view) {
+            clickListener.onItemClick(getAdapterPosition(),view);
+        }
+    }
+
+    public void setOnItemClickListener(ClickListener clickListener) {
+        HomeAdapterRV.clickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(int position, View v);
     }
 }
