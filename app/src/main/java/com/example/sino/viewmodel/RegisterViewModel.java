@@ -12,6 +12,7 @@ import com.example.sino.api.NetworkRepository;
 import com.example.sino.model.SuccessActivationBean;
 import com.example.sino.model.SuccessRegisterBean;
 import com.example.sino.model.db.User;
+import com.example.sino.model.carinfo.SuccessCarInfoBean;
 import com.example.sino.utils.common.Util;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
@@ -29,6 +30,7 @@ public class RegisterViewModel extends AndroidViewModel {
     private static String TAG = RegisterViewModel.class.getSimpleName();
     MutableLiveData<SuccessRegisterBean> registerMutableLiveData = new MutableLiveData<>();
     MutableLiveData<SuccessActivationBean> activationMutableLiveData = new MutableLiveData<>();
+
 
     @Inject
     NetworkRepository repository;

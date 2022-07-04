@@ -126,6 +126,7 @@ public class HomeFragment extends Fragment {
                 switch (position) {
                     case 0:
                         System.out.println("position=====" + position);
+                        Navigation.findNavController(view).navigate(R.id.chatGroupFragment);
                         break;
 
                     case 1:

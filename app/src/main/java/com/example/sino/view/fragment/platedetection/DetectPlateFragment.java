@@ -27,12 +27,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sino.R;
 import com.example.sino.SinoApplication;
 import com.example.sino.model.db.User;
-import com.example.sino.model.db.carinfo.SuccessCarInfoBean;
+import com.example.sino.model.carinfo.SuccessCarInfoBean;
 import com.example.sino.utils.GsonGenerator;
 import com.example.sino.utils.common.Util;
 import com.example.sino.viewmodel.MainViewModel;
@@ -42,11 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 @AndroidEntryPoint
@@ -136,6 +133,35 @@ public class DetectPlateFragment extends Fragment {
         user = SinoApplication.getInstance().getCurrentUser();
 
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+
+
+        viewModel.getCarInfoResult().observe(getViewLifecycleOwner(), new Observer<SuccessCarInfoBean>() {
+            @Override
+            public void onChanged(SuccessCarInfoBean successCarInfoBean) {
+                Util.showProgress(circularProgressView);
+                if (successCarInfoBean.success != null) {
+                    if (successCarInfoBean.result != null) {
+                        List<Integer> list = successCarInfoBean.result.car.pictureAF.pictureBytes;
+                        byte[] bytes = new byte[list.size()];
+                        for (int i = 0; i < list.size(); i++) {
+                            bytes[i] = list.get(i).byteValue();
+                        }
+                        bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
+                        plateText_str = successCarInfoBean.result.car.plateText;
+                        vinNo_str = successCarInfoBean.result.car.vinNo;
+                        chassis_str = successCarInfoBean.result.car.chassis;
+
+                        detailDialog(plateText_str, vinNo_str, chassis_str);
+
+                    } else {
+                        Toast toast = Toast.makeText(getActivity(), successCarInfoBean.error, Toast.LENGTH_LONG);
+                        Util.showToast(toast, getActivity());
+                        toast.show();
+                    }
+                }
+            }
+        });
     }
 
     private View.OnClickListener openDialog = new View.OnClickListener() {
@@ -250,54 +276,9 @@ public class DetectPlateFragment extends Fragment {
                     plateText = " ایران " + txt_one.getText().toString() + "-" + txt_two.getText().toString() + "" + txt_three.getText().toString() + "" + txt_four.getText().toString();
                     System.out.println("plateText======" + plateText);
                     inputParam = GsonGenerator.getCarInfo(user.getUsername(), user.getBisPassword(), plateText, chassis, true);
+                    viewModel.getCarInfo(inputParam, circularProgressView);
 
                     Util.showProgress(circularProgressView);
-
-                    viewModel.getCarInfoVM(inputParam).subscribeOn(Schedulers.io())
-                            .subscribeOn(AndroidSchedulers.mainThread())
-                            .subscribe(new Observer<SuccessCarInfoBean>() {
-                                @Override
-                                public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
-                                    compositeDisposable.add(d);
-                                }
-
-                                @Override
-                                public void onNext(@io.reactivex.rxjava3.annotations.NonNull SuccessCarInfoBean successCarInfoBean) {
-                                    successCarInfoBeanResult = successCarInfoBean;
-                                }
-
-                                @Override
-                                public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
-                                    System.out.println(e.getLocalizedMessage());
-                                }
-
-                                @Override
-                                public void onComplete() {
-                                    Util.showProgress(circularProgressView);
-                                    if (successCarInfoBeanResult.success != null) {
-                                        if (successCarInfoBeanResult.result != null) {
-                                            List<Integer> list = successCarInfoBeanResult.result.car.pictureAF.pictureBytes;
-                                            byte[] bytes = new byte[list.size()];
-                                            for (int i = 0; i < list.size(); i++) {
-                                                bytes[i] = list.get(i).byteValue();
-                                            }
-                                            bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-
-                                            plateText_str = successCarInfoBeanResult.result.car.plateText;
-                                            vinNo_str = successCarInfoBeanResult.result.car.vinNo;
-                                            chassis_str = successCarInfoBeanResult.result.car.chassis;
-
-                                            dialog.dismiss();
-                                            detailDialog(plateText_str, vinNo_str, chassis_str);
-
-                                        } else {
-                                            Toast toast = Toast.makeText(getActivity(), successCarInfoBeanResult.error, Toast.LENGTH_LONG);
-                                            Util.showToast(toast, getActivity());
-                                            toast.show();
-                                        }
-                                    }
-                                }
-                            });
                 }
             });
         }
@@ -372,6 +353,9 @@ public class DetectPlateFragment extends Fragment {
         if (bitmap != null) {
             img_car.setImageBitmap(bitmap);
         }
+
+        System.out.println("plateText_str====" + plateText_str);
+        System.out.println("vinNo_str====" + vinNo_str);
         txt_plateText.setText(" پلاک : " + plateText_str);
         txt_vinNo.setText(vinNo_str + " : vin ");
         txt_chassis.setText(" شاسی : " + chassis_str);

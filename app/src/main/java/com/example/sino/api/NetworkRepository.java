@@ -8,10 +8,11 @@ import com.example.sino.model.SuccessActivationBean;
 import com.example.sino.model.SuccessChatReceiveBean;
 import com.example.sino.model.SuccessPermissionBean;
 import com.example.sino.model.SuccessRegisterBean;
+import com.example.sino.model.chatgroup.SuccessChatGroupBean;
 import com.example.sino.model.db.ChatGroup;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
-import com.example.sino.model.db.carinfo.SuccessCarInfoBean;
+import com.example.sino.model.carinfo.SuccessCarInfoBean;
 
 import java.util.List;
 
@@ -52,6 +53,14 @@ public class NetworkRepository {
 
     public Observable<SuccessCarInfoBean> getCarInfoRepo(String INPUT_PARAM) {
         return networkApi.getCarInfoApi(INPUT_PARAM + "&IS_ENCRYPED=false");
+    }
+
+    public Observable<SuccessChatGroupBean> getUserChatGroupListRepo(String INPUT_PARAM) {
+        return networkApi.getUserChatGroupListApi(INPUT_PARAM + "&IS_ENCRYPED=false");
+    }
+
+    public Observable<SuccessCarInfoBean> getUserChatGroupMemberListRepo(String INPUT_PARAM) {
+        return networkApi.getUserChatGroupMemberListApi(INPUT_PARAM + "&IS_ENCRYPED=false");
     }
 
     public void insertUser(User user) {

@@ -30,4 +30,19 @@
         android:name="com.example.sino.view.fragment.platedetection.DetectPlateFragment"
         android:label="fragment_detect_plate"
         tools:layout="@layout/fragment_detect_plate" />
+    <fragment
+        android:id="@+id/chatGroupFragment"
+        android:name="com.example.sino.view.chatmessage.ChatGroupFragment"
+        android:label="fragment_caht_group"
+        tools:layout="@layout/fragment_caht_group" />
+    <fragment
+        android:id="@+id/chatMessageFragment"
+        android:name="com.example.sino.view.chatmessage.ChatMessageFragment"
+        android:label="fragment_chat_message"
+        tools:layout="@layout/fragment_chat_message" />
+    <fragment
+        android:id="@+id/memberFragment"
+        android:name="com.example.sino.view.chatmessage.MemberFragment"
+        android:label="fragment_member"
+        tools:layout="@layout/fragment_member" />
 </navigation>

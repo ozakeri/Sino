@@ -1,5 +1,5 @@
 
-package com.example.sino.model.db.carinfo;
+package com.example.sino.model.carinfo;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
