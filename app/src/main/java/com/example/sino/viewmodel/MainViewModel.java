@@ -46,6 +46,7 @@ public class MainViewModel extends AndroidViewModel {
     MutableLiveData<SuccessCarInfoBean> carInfoMutableLiveData = new MutableLiveData<>();
     MutableLiveData<SuccessChatGroupBean> userChatGroupListMutableLiveData = new MutableLiveData<>();
     MutableLiveData<SuccessCarInfoBean> chatGroupMemberListMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<SuccessCarInfoBean> getUserInfoByIdMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<SuccessPermissionBean> getUserPermissionListResult() {
         return userPermissionMutableLiveData;
@@ -103,6 +104,10 @@ public class MainViewModel extends AndroidViewModel {
         return chatGroupMemberListMutableLiveData;
     }
 
+    public MutableLiveData<SuccessCarInfoBean> getUserInfoById() {
+        return getUserInfoByIdMutableLiveData;
+    }
+
     public void getCarInfo(String INPUT_PARAM, CircularProgressView progressView) {
         System.out.println("INPUT_PARAM=" + INPUT_PARAM);
         Util.showProgress(progressView);
@@ -154,7 +159,25 @@ public class MainViewModel extends AndroidViewModel {
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> chatGroupMemberListMutableLiveData.setValue(result)
-                        , throwable -> Log.e("TAG", "getUserChatGroupList: " + throwable.getLocalizedMessage()));
+                        , throwable -> Log.e("TAG", "getUserChatGroupMemberList: " + throwable.getLocalizedMessage()));
+    }
+
+    public void getUserInfoById(String INPUT_PARAM) {
+        System.out.println("INPUT_PARAM=" + INPUT_PARAM);
+        //Util.showProgress(progressView);
+
+        repository.getUserInfoByIdRepo(INPUT_PARAM).subscribeOn(Schedulers.io())
+                .map(new Function<SuccessCarInfoBean, SuccessCarInfoBean>() {
+                    @Override
+                    public SuccessCarInfoBean apply(SuccessCarInfoBean successCarInfoBean) throws Throwable {
+                        getUserInfoByIdMutableLiveData.postValue(successCarInfoBean);
+                       // Util.hideProgress(progressView);
+                        return null;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> getUserInfoByIdMutableLiveData.setValue(result)
+                        , throwable -> Log.e("TAG", "getUserInfoById: " + throwable.getLocalizedMessage()));
     }
 
     @Override

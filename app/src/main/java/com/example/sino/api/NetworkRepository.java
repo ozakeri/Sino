@@ -63,6 +63,10 @@ public class NetworkRepository {
         return networkApi.getUserChatGroupMemberListApi(INPUT_PARAM + "&IS_ENCRYPED=false");
     }
 
+    public Observable<SuccessCarInfoBean> getUserInfoByIdRepo(String INPUT_PARAM) {
+        return networkApi.getUserInfoByIdApi(INPUT_PARAM + "&IS_ENCRYPED=false");
+    }
+
     public void insertUser(User user) {
         sinoDao.insertUser(user);
     }

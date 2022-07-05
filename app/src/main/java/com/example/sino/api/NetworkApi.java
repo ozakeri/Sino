@@ -36,4 +36,7 @@ public interface NetworkApi {
 
     @GET("/rfServices/getUserChatGroupMemberList?")
     Observable<SuccessCarInfoBean> getUserChatGroupMemberListApi(@Query("INPUT_PARAM") String INPUT_PARAM);
+
+    @GET("/rfServices/getUserInfoById?")
+    Observable<SuccessCarInfoBean> getUserInfoByIdApi(@Query("INPUT_PARAM") String INPUT_PARAM);
 }
