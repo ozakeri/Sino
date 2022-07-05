@@ -30,6 +30,15 @@ public class GsonGenerator {
         return Util.createJson(wsParameters);
     }
 
+    public static String getUserInfoById(String username,String tokenPass,Long userId) {
+        ArrayList<Util.WSParameter> wsParameters = new ArrayList<>();
+        wsParameters.add(new Util.WSParameter("username", username));
+        wsParameters.add(new Util.WSParameter("tokenPass", tokenPass));
+        wsParameters.add(new Util.WSParameter("id", userId));
+        //json = URLEncoder.encode(json);
+        return Util.createJson(wsParameters);
+    }
+
     public static String chatMessageDeliveredReport(String username, String tokenPass, List<Long> messageIdList) {
         ArrayList<Util.WSParameter> wsParameters = new ArrayList<>();
         wsParameters.add(new Util.WSParameter("username", username));

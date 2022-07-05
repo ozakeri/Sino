@@ -3,10 +3,19 @@ package com.example.sino.model.db;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "AppUser")
 public class AppUser implements Parcelable {
+
+    @PrimaryKey
     private Long id;
     private String name;
     private String family;
+
+    public AppUser() {
+    }
 
     protected AppUser(Parcel in) {
         if (in.readByte() == 0) {

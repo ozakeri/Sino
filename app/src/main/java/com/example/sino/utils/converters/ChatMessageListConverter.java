@@ -2,7 +2,6 @@ package com.example.sino.utils.converters;
 
 import androidx.room.TypeConverter;
 
-import com.example.sino.model.db.ChatGroupMember;
 import com.example.sino.model.db.ChatMessage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.example.sino.model.chatgroup.ChatGroup;
+import com.example.sino.model.chatgroupmember.ChatGroupMember;
 import com.example.sino.model.db.ChatMessage;
 import com.example.sino.repository.DatabaseRepository;
 
@@ -35,11 +36,19 @@ public class DatabaseViewModel extends AndroidViewModel {
     }
 
     public void insertChatGroupVM(ChatGroup chatGroup) {
-         repository.insertChatGroupRepo(chatGroup);
+        repository.insertChatGroupRepo(chatGroup);
     }
 
     public void updateChatGroupVM(ChatGroup chatGroup) {
-         repository.updateChatGroupRepo(chatGroup);
+        repository.updateChatGroupRepo(chatGroup);
+    }
+
+    public void insertChatGroupMemberVM(ChatGroupMember chatGroupMember) {
+        repository.insertChatGroupMemberRepo(chatGroupMember);
+    }
+
+    public void updateChatGroupMemberVM(ChatGroupMember chatGroupMember) {
+        repository.updateChatGroupMemberRepo(chatGroupMember);
     }
 
     public List<ChatGroup> getChatGroupListVM() {
@@ -50,7 +59,11 @@ public class DatabaseViewModel extends AndroidViewModel {
         return repository.getChatGroupByServerGroupIdRepo(id);
     }
 
-    public List<ChatGroup>  getChatGroupListByParamVM(List<Long> notServerGroupIdList) {
-        return repository.getChatGroupListByParamRepo(notServerGroupIdList);
+    public ChatGroupMember getChatGroupMemberByUserAndGroupVM(Long userId, Long chatGroupId) {
+        return repository.getChatGroupMemberByUserAndGroupRepo(userId, chatGroupId);
+    }
+
+    public ChatGroup getChatGroupListByParamVM(Long id) {
+        return repository.getChatGroupListByParamRepo(id);
     }
 }

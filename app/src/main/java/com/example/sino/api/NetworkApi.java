@@ -6,6 +6,7 @@ import com.example.sino.model.SuccessPermissionBean;
 import com.example.sino.model.SuccessRegisterBean;
 import com.example.sino.model.carinfo.SuccessCarInfoBean;
 import com.example.sino.model.chatgroup.SuccessChatGroupBean;
+import com.example.sino.model.chatgroupmember.SuccessChatGroupMemberBean;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.GET;
@@ -35,7 +36,7 @@ public interface NetworkApi {
     Observable<SuccessChatGroupBean> getUserChatGroupListApi(@Query("INPUT_PARAM") String INPUT_PARAM);
 
     @GET("/rfServices/getUserChatGroupMemberList?")
-    Observable<SuccessCarInfoBean> getUserChatGroupMemberListApi(@Query("INPUT_PARAM") String INPUT_PARAM);
+    Observable<SuccessChatGroupMemberBean> getUserChatGroupMemberListApi(@Query("INPUT_PARAM") String INPUT_PARAM);
 
     @GET("/rfServices/getUserInfoById?")
     Observable<SuccessCarInfoBean> getUserInfoByIdApi(@Query("INPUT_PARAM") String INPUT_PARAM);

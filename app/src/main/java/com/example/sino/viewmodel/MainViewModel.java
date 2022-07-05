@@ -13,6 +13,8 @@ import com.example.sino.model.SuccessChatReceiveBean;
 import com.example.sino.model.SuccessPermissionBean;
 import com.example.sino.model.chatgroup.ChatGroup;
 import com.example.sino.model.chatgroup.SuccessChatGroupBean;
+import com.example.sino.model.chatgroupmember.SuccessChatGroupMemberBean;
+import com.example.sino.model.db.AppUser;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
 import com.example.sino.model.carinfo.SuccessCarInfoBean;
@@ -45,7 +47,7 @@ public class MainViewModel extends AndroidViewModel {
     MutableLiveData<SuccessPermissionBean> userPermissionMutableLiveData = new MutableLiveData<>();
     MutableLiveData<SuccessCarInfoBean> carInfoMutableLiveData = new MutableLiveData<>();
     MutableLiveData<SuccessChatGroupBean> userChatGroupListMutableLiveData = new MutableLiveData<>();
-    MutableLiveData<SuccessCarInfoBean> chatGroupMemberListMutableLiveData = new MutableLiveData<>();
+    MutableLiveData<SuccessChatGroupMemberBean> chatGroupMemberListMutableLiveData = new MutableLiveData<>();
     MutableLiveData<SuccessCarInfoBean> getUserInfoByIdMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<SuccessPermissionBean> getUserPermissionListResult() {
@@ -58,6 +60,10 @@ public class MainViewModel extends AndroidViewModel {
 
     public List<UserPermission> getUserPermission(Long userId) {
         return repository.getUserPermissionList(userId);
+    }
+
+    public AppUser getAppUserByIdVM(Long id) {
+        return repository.getAppUserByIdRepo(id);
     }
 
     public void insertUser(User user) {
@@ -96,7 +102,7 @@ public class MainViewModel extends AndroidViewModel {
         return userChatGroupListMutableLiveData;
     }
 
-    public MutableLiveData<SuccessCarInfoBean> getChatGroupMemberList() {
+    public MutableLiveData<SuccessChatGroupMemberBean> getChatGroupMemberList() {
         return chatGroupMemberListMutableLiveData;
     }
 
@@ -145,10 +151,10 @@ public class MainViewModel extends AndroidViewModel {
         //Util.showProgress(progressView);
 
         repository.getUserChatGroupMemberListRepo(INPUT_PARAM).subscribeOn(Schedulers.io())
-                .map(new Function<SuccessCarInfoBean, SuccessCarInfoBean>() {
+                .map(new Function<SuccessChatGroupMemberBean, SuccessChatGroupMemberBean>() {
                     @Override
-                    public SuccessCarInfoBean apply(SuccessCarInfoBean successCarInfoBean) throws Throwable {
-                        chatGroupMemberListMutableLiveData.postValue(successCarInfoBean);
+                    public SuccessChatGroupMemberBean apply(SuccessChatGroupMemberBean successChatGroupMemberBean) throws Throwable {
+                        chatGroupMemberListMutableLiveData.postValue(successChatGroupMemberBean);
                        // Util.hideProgress(progressView);
                         return null;
                     }

@@ -5,10 +5,12 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
-import com.example.sino.model.db.ChatGroupMember;
+import com.example.sino.model.chatgroupmember.ChatGroupMember;
 import com.example.sino.model.db.ChatMessage;
 import com.example.sino.utils.converters.ChatGroupMemberListConverter;
+import com.example.sino.utils.converters.ChatMessageConverter;
 import com.example.sino.utils.converters.ChatMessageListConverter;
+import com.example.sino.utils.converters.LongListConverter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -17,7 +19,6 @@ import java.util.List;
 @Entity (tableName = "chat_group")
 public class ChatGroup {
 
-    @PrimaryKey
     @SerializedName("maxMember")
     @Expose
     public Integer maxMember;
@@ -29,6 +30,7 @@ public class ChatGroup {
     public String name;
     @SerializedName("id")
     @Expose
+    @PrimaryKey
     public Integer id;
     @SerializedName("status")
     @Expose
@@ -43,8 +45,10 @@ public class ChatGroup {
     private Integer statusEn;
     @TypeConverters({ChatMessageListConverter.class})
     private List<ChatMessage> chatMessageList;
+    @TypeConverters({ChatMessageConverter.class})
     private ChatMessage lastChatMessage;
     private Integer countOfUnreadMessage;
+    @TypeConverters(LongListConverter.class)
     private List<Long> notServerGroupIdList;
     private Integer countOfMembers;
 

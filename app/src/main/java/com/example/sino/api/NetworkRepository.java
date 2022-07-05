@@ -10,6 +10,8 @@ import com.example.sino.model.SuccessPermissionBean;
 import com.example.sino.model.SuccessRegisterBean;
 import com.example.sino.model.chatgroup.ChatGroup;
 import com.example.sino.model.chatgroup.SuccessChatGroupBean;
+import com.example.sino.model.chatgroupmember.SuccessChatGroupMemberBean;
+import com.example.sino.model.db.AppUser;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
 import com.example.sino.model.carinfo.SuccessCarInfoBean;
@@ -59,7 +61,7 @@ public class NetworkRepository {
         return networkApi.getUserChatGroupListApi(INPUT_PARAM + "&IS_ENCRYPED=false");
     }
 
-    public Observable<SuccessCarInfoBean> getUserChatGroupMemberListRepo(String INPUT_PARAM) {
+    public Observable<SuccessChatGroupMemberBean> getUserChatGroupMemberListRepo(String INPUT_PARAM) {
         return networkApi.getUserChatGroupMemberListApi(INPUT_PARAM + "&IS_ENCRYPED=false");
     }
 
@@ -93,5 +95,9 @@ public class NetworkRepository {
 
     public List<UserPermission> getUserPermissionList(Long userId) {
         return sinoDao.getUserPermissionListByUserId(userId);
+    }
+
+    public AppUser getAppUserByIdRepo(Long id) {
+        return sinoDao.getAppUserById(id);
     }
 }
