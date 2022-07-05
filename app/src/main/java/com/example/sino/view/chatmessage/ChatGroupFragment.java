@@ -13,12 +13,18 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sino.R;
 import com.example.sino.SinoApplication;
+import com.example.sino.enumtype.GeneralStatus;
+import com.example.sino.model.carinfo.SuccessCarInfoBean;
+import com.example.sino.model.chatgroup.ChatGroup;
 import com.example.sino.model.chatgroup.SuccessChatGroupBean;
 import com.example.sino.model.db.User;
-import com.example.sino.model.carinfo.SuccessCarInfoBean;
 import com.example.sino.utils.GsonGenerator;
+import com.example.sino.viewmodel.DatabaseViewModel;
 import com.example.sino.viewmodel.MainViewModel;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import dagger.hilt.android.AndroidEntryPoint;
 
@@ -29,6 +35,7 @@ public class ChatGroupFragment extends Fragment {
     private String inputParam = "";
     private CircularProgressView progress_circular;
     private User user;
+    private DatabaseViewModel databaseViewModel;
 
 
     @Override
@@ -45,16 +52,54 @@ public class ChatGroupFragment extends Fragment {
         user = SinoApplication.getInstance().getCurrentUser();
 
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        databaseViewModel = new ViewModelProvider(this).get(DatabaseViewModel.class);
         progress_circular = view.findViewById(R.id.progress_circular);
 
         inputParam = GsonGenerator.getUserPermissionList(user.getUsername(), user.getBisPassword());
-        mainViewModel.getUserChatGroupList(inputParam,progress_circular);
+        mainViewModel.getUserChatGroupList(inputParam, progress_circular);
         mainViewModel.getUserChatGroupMemberList(inputParam);
 
         mainViewModel.getUserChatGroupList().observe(getViewLifecycleOwner(), new Observer<SuccessChatGroupBean>() {
             @Override
             public void onChanged(SuccessChatGroupBean successChatGroupBean) {
+                if (successChatGroupBean.success != null) {
+                    if (successChatGroupBean.result != null) {
+                        if (successChatGroupBean.result.chatGroupList != null) {
+                            List<Long> serverGroupIdList = new ArrayList<Long>();
+                            for (int i = 0; i < successChatGroupBean.result.chatGroupList.size(); i++) {
+                                Long serverGroupId = Long.valueOf(successChatGroupBean.result.chatGroupList.get(i).id);
+                                serverGroupIdList.add(serverGroupId);
+                                ChatGroup tmpChatGroupFS = new ChatGroup();
+                                tmpChatGroupFS.setServerGroupId(serverGroupId);
 
+                                ChatGroup chatGroup = databaseViewModel.getChatGroupByServerGroupIdVM(tmpChatGroupFS.getServerGroupId());
+                                if (chatGroup == null) {
+                                    chatGroup = new ChatGroup();
+                                    chatGroup.setServerGroupId(serverGroupId);
+                                }
+
+                                chatGroup.setName(successChatGroupBean.result.chatGroupList.get(i).name);
+                                chatGroup.setPrivateIs(successChatGroupBean.result.chatGroupList.get(i).getPrivateIs());
+                                chatGroup.setMaxMember(successChatGroupBean.result.chatGroupList.get(i).getMaxMember());
+                                chatGroup.setNotifyAct(successChatGroupBean.result.chatGroupList.get(i).getNotifyAct());
+                                chatGroup.setStatus(successChatGroupBean.result.chatGroupList.get(i).getStatus());
+
+                                if (chatGroup.getId() == null) {
+                                    databaseViewModel.insertChatGroupVM(chatGroup);
+                                }
+                                databaseViewModel.updateChatGroupVM(chatGroup);
+                            }
+
+                            ChatGroup tmpChatGroupFS = new ChatGroup();
+                            tmpChatGroupFS.setNotServerGroupIdList(serverGroupIdList);
+                            List<ChatGroup> chatGroupUserRemovedList = databaseViewModel.getChatGroupListByParamVM(serverGroupIdList);
+                            for (ChatGroup chatGroupUserRemoved : chatGroupUserRemovedList) {
+                                chatGroupUserRemoved.setStatusEn(GeneralStatus.Inactive.ordinal());
+                                databaseViewModel.updateChatGroupVM(chatGroupUserRemoved);
+                            }
+                        }
+                    }
+                }
             }
         });
 

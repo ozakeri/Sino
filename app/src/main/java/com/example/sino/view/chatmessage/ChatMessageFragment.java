@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.sino.R;
 import com.example.sino.SinoApplication;
 import com.example.sino.model.SuccessChatReceiveBean;
-import com.example.sino.model.db.ChatGroup;
 import com.example.sino.model.db.ChatMessage;
 import com.example.sino.model.db.User;
 import com.example.sino.utils.GsonGenerator;
@@ -25,9 +24,7 @@ import com.example.sino.viewmodel.MainViewModel;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -93,12 +90,6 @@ public class ChatMessageFragment extends Fragment {
                     public void onComplete() {
                         if (successChatReceiveBean.getRESULT() != null) {
                             if (successChatReceiveBean.getRESULT().getChatMessageReceiverList().size() > 0) {
-                                List<ChatGroup> chatGroupList = mainViewModel.getChatGroupList();
-                                Map<Long, ChatGroup> chatGroupMap = new HashMap<>();
-                                for (ChatGroup chatGroup : chatGroupList) {
-                                    chatGroupMap.put(chatGroup.getServerGroupId(), chatGroup);
-                                }
-
                                 List<ChatMessage> chatMessageList = new ArrayList<ChatMessage>();
 
                                 for (int i = 0; i < successChatReceiveBean.getRESULT().getChatMessageReceiverList().size(); i++) {

@@ -8,8 +8,8 @@ import com.example.sino.model.SuccessActivationBean;
 import com.example.sino.model.SuccessChatReceiveBean;
 import com.example.sino.model.SuccessPermissionBean;
 import com.example.sino.model.SuccessRegisterBean;
+import com.example.sino.model.chatgroup.ChatGroup;
 import com.example.sino.model.chatgroup.SuccessChatGroupBean;
-import com.example.sino.model.db.ChatGroup;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
 import com.example.sino.model.carinfo.SuccessCarInfoBean;
@@ -89,10 +89,6 @@ public class NetworkRepository {
 
     public LiveData<List<User>> getAllUser() {
         return sinoDao.getAllUser();
-    }
-
-    public List<ChatGroup> getChatGroupList() {
-        return sinoDao.getChatGroupList();
     }
 
     public List<UserPermission> getUserPermissionList(Long userId) {

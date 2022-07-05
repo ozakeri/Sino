@@ -11,8 +11,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.sino.api.NetworkRepository;
 import com.example.sino.model.SuccessChatReceiveBean;
 import com.example.sino.model.SuccessPermissionBean;
+import com.example.sino.model.chatgroup.ChatGroup;
 import com.example.sino.model.chatgroup.SuccessChatGroupBean;
-import com.example.sino.model.db.ChatGroup;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
 import com.example.sino.model.carinfo.SuccessCarInfoBean;
@@ -54,10 +54,6 @@ public class MainViewModel extends AndroidViewModel {
 
     public LiveData<List<User>> getAllUser() {
         return repository.getAllUser();
-    }
-
-    public List<ChatGroup> getChatGroupList() {
-        return repository.getChatGroupList();
     }
 
     public List<UserPermission> getUserPermission(Long userId) {
