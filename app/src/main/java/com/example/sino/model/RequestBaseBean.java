@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.example.sino.SinoApplication;
+import com.example.sino.model.db.ChatMessage;
+import com.example.sino.model.db.TmpChatMessage;
 import com.example.sino.utils.common.Util;
 
 public class RequestBaseBean implements Parcelable {
@@ -13,9 +15,11 @@ public class RequestBaseBean implements Parcelable {
     private String documentPassword = "inspect!gap@1395";
     private String clientId = "2";
     private String version = SinoApplication.getInstance().getVersionName();
+    private TmpChatMessage chatMessage;
 
     public RequestBaseBean() {
     }
+
 
     protected RequestBaseBean(Parcel in) {
         device = in.readParcelable(Device.class.getClassLoader());
@@ -23,6 +27,20 @@ public class RequestBaseBean implements Parcelable {
         documentPassword = in.readString();
         clientId = in.readString();
         version = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(device, flags);
+        dest.writeString(documentUsername);
+        dest.writeString(documentPassword);
+        dest.writeString(clientId);
+        dest.writeString(version);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<RequestBaseBean> CREATOR = new Creator<RequestBaseBean>() {
@@ -36,20 +54,6 @@ public class RequestBaseBean implements Parcelable {
             return new RequestBaseBean[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeParcelable(device, i);
-        parcel.writeString(documentUsername);
-        parcel.writeString(documentPassword);
-        parcel.writeString(clientId);
-        parcel.writeString(version);
-    }
 
     public Device getDevice() {
         return device;
@@ -89,5 +93,13 @@ public class RequestBaseBean implements Parcelable {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public TmpChatMessage getTmpChatMessage() {
+        return chatMessage;
+    }
+
+    public void setTmpChatMessage(TmpChatMessage tmpChatMessage) {
+        this.chatMessage = tmpChatMessage;
     }
 }

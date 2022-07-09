@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 @Entity(tableName = "chat_message")
-public class ChatMessage implements Parcelable {
+public class ChatMessage {
 
     @SerializedName("chatGroupId")
     @Expose
@@ -81,222 +81,11 @@ public class ChatMessage implements Parcelable {
     @TypeConverters({DateConverter.class})
     private java.util.Date readDateFrom;
     private Long senderAppUserIdNot;
+    private Boolean isCreateNewPvChatGroup;
 
     public ChatMessage() {
     }
 
-    protected ChatMessage(Parcel in) {
-        if (in.readByte() == 0) {
-            chatGroupId = null;
-        } else {
-            chatGroupId = in.readInt();
-        }
-        dateCreation = in.readString();
-        if (in.readByte() == 0) {
-            attachFileId = null;
-        } else {
-            attachFileId = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            senderUserId = null;
-        } else {
-            senderUserId = in.readInt();
-        }
-        sendDate = in.readString();
-        if (in.readByte() == 0) {
-            attachFileSize = null;
-        } else {
-            attachFileSize = in.readInt();
-        }
-        attachFileUserFileName = in.readString();
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
-        statusText = in.readString();
-        if (in.readByte() == 0) {
-            status = null;
-        } else {
-            status = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            clientMessageId = null;
-        } else {
-            clientMessageId = in.readLong();
-        }
-        if (in.readByte() == 0) {
-            userCreationId = null;
-        } else {
-            userCreationId = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            serverMessageId = null;
-        } else {
-            serverMessageId = in.readLong();
-        }
-        message = in.readString();
-        attachFileLocalPath = in.readString();
-        attachFileRemoteUrl = in.readString();
-        byte tmpDeliverIs = in.readByte();
-        deliverIs = tmpDeliverIs == 0 ? null : tmpDeliverIs == 1;
-        byte tmpReadIs = in.readByte();
-        readIs = tmpReadIs == 0 ? null : tmpReadIs == 1;
-        if (in.readByte() == 0) {
-            sendingStatusEn = null;
-        } else {
-            sendingStatusEn = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            attachFileSentSize = null;
-        } else {
-            attachFileSentSize = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            attachFileReceivedSize = null;
-        } else {
-            attachFileReceivedSize = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            senderAppUserId = null;
-        } else {
-            senderAppUserId = in.readLong();
-        }
-        if (in.readByte() == 0) {
-            receiverAppUserId = null;
-        } else {
-            receiverAppUserId = in.readLong();
-        }
-        senderAppUser = in.readParcelable(AppUser.class.getClassLoader());
-        localAttachFileExist = in.readByte() != 0;
-        if (in.readByte() == 0) {
-            senderAppUserIdNot = null;
-        } else {
-            senderAppUserIdNot = in.readLong();
-        }
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (chatGroupId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(chatGroupId);
-        }
-        dest.writeString(dateCreation);
-        if (attachFileId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(attachFileId);
-        }
-        if (senderUserId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(senderUserId);
-        }
-        dest.writeString(sendDate);
-        if (attachFileSize == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(attachFileSize);
-        }
-        dest.writeString(attachFileUserFileName);
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(id);
-        }
-        dest.writeString(statusText);
-        if (status == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(status);
-        }
-        if (clientMessageId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(clientMessageId);
-        }
-        if (userCreationId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(userCreationId);
-        }
-        if (serverMessageId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(serverMessageId);
-        }
-        dest.writeString(message);
-        dest.writeString(attachFileLocalPath);
-        dest.writeString(attachFileRemoteUrl);
-        dest.writeByte((byte) (deliverIs == null ? 0 : deliverIs ? 1 : 2));
-        dest.writeByte((byte) (readIs == null ? 0 : readIs ? 1 : 2));
-        if (sendingStatusEn == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(sendingStatusEn);
-        }
-        if (attachFileSentSize == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(attachFileSentSize);
-        }
-        if (attachFileReceivedSize == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(attachFileReceivedSize);
-        }
-        if (senderAppUserId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(senderAppUserId);
-        }
-        if (receiverAppUserId == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(receiverAppUserId);
-        }
-        dest.writeParcelable(senderAppUser, flags);
-        dest.writeByte((byte) (localAttachFileExist ? 1 : 0));
-        if (senderAppUserIdNot == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(senderAppUserIdNot);
-        }
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<ChatMessage> CREATOR = new Creator<ChatMessage>() {
-        @Override
-        public ChatMessage createFromParcel(Parcel in) {
-            return new ChatMessage(in);
-        }
-
-        @Override
-        public ChatMessage[] newArray(int size) {
-            return new ChatMessage[size];
-        }
-    };
 
     public Integer getChatGroupId() {
         return chatGroupId;
@@ -544,5 +333,13 @@ public class ChatMessage implements Parcelable {
 
     public void setSenderAppUserIdNot(Long senderAppUserIdNot) {
         this.senderAppUserIdNot = senderAppUserIdNot;
+    }
+
+    public Boolean getCreateNewPvChatGroup() {
+        return isCreateNewPvChatGroup;
+    }
+
+    public void setCreateNewPvChatGroup(Boolean createNewPvChatGroup) {
+        isCreateNewPvChatGroup = createNewPvChatGroup;
     }
 }

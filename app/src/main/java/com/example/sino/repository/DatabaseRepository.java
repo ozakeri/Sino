@@ -3,6 +3,7 @@ package com.example.sino.repository;
 import com.example.sino.db.SinoDao;
 import com.example.sino.model.chatgroup.ChatGroup;
 import com.example.sino.model.chatgroupmember.ChatGroupMember;
+import com.example.sino.model.db.AppUser;
 import com.example.sino.model.db.ChatMessage;
 
 import java.util.List;
@@ -38,8 +39,12 @@ public class DatabaseRepository {
         return sinoDao.getChatGroupMemberListByParam(userId, chatGroupId);
     }
 
-    public Long insertChatMessageRepo(ChatMessage chatMessage) {
-        return sinoDao.insertChatMessage(chatMessage);
+    public void insertChatMessageRepo(ChatMessage chatMessage) {
+         sinoDao.insertChatMessage(chatMessage);
+    }
+
+    public void updateChatMessageRepo(ChatMessage chatMessage) {
+         sinoDao.updateChatMessage(chatMessage);
     }
 
     public void insertChatGroupRepo(ChatGroup chatGroup) {
@@ -48,6 +53,14 @@ public class DatabaseRepository {
 
     public void updateChatGroupRepo(ChatGroup chatGroup) {
         sinoDao.updateChatGroup(chatGroup);
+    }
+
+    public void insertAppUserRepo(AppUser appUser) {
+        sinoDao.insertAppUser(appUser);
+    }
+
+    public void updateAppUserRepo(AppUser appUser) {
+        sinoDao.updateAppUser(appUser);
     }
 
     public void insertChatGroupMemberRepo(ChatGroupMember chatGroupMember) {
@@ -60,5 +73,9 @@ public class DatabaseRepository {
 
     public List<ChatGroup> getChatGroupList() {
         return sinoDao.getChatGroupList();
+    }
+
+    public List<ChatGroup> getActiveChatGroupListRepo(int status) {
+        return sinoDao.getActiveChatGroupList(status);
     }
 }

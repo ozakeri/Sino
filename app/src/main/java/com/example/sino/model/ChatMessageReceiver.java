@@ -11,7 +11,7 @@ import com.example.sino.utils.converters.ChatMessageConverter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ChatMessageReceiver implements Parcelable {
+public class ChatMessageReceiver {
     @SerializedName("deliverIs")
     @Expose
     public Boolean deliverIs;
@@ -47,90 +47,6 @@ public class ChatMessageReceiver implements Parcelable {
     @SerializedName("userCreationId")
     @Expose
     public Integer userCreationId;
-
-    protected ChatMessageReceiver(Parcel in) {
-        byte tmpDeliverIs = in.readByte();
-        deliverIs = tmpDeliverIs == 0 ? null : tmpDeliverIs == 1;
-        dateCreation = in.readString();
-        byte tmpReadIs = in.readByte();
-        readIs = tmpReadIs == 0 ? null : tmpReadIs == 1;
-        readDate = in.readString();
-        deliverDate = in.readString();
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readInt();
-        }
-        statusText = in.readString();
-        chatMessage = in.readParcelable(ChatMessage.class.getClassLoader());
-        if (in.readByte() == 0) {
-            status = null;
-        } else {
-            status = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            receiverUserId = null;
-        } else {
-            receiverUserId = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            userCreationId = null;
-        } else {
-            userCreationId = in.readInt();
-        }
-    }
-
-    public static final Creator<ChatMessageReceiver> CREATOR = new Creator<ChatMessageReceiver>() {
-        @Override
-        public ChatMessageReceiver createFromParcel(Parcel in) {
-            return new ChatMessageReceiver(in);
-        }
-
-        @Override
-        public ChatMessageReceiver[] newArray(int size) {
-            return new ChatMessageReceiver[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeByte((byte) (deliverIs == null ? 0 : deliverIs ? 1 : 2));
-        parcel.writeString(dateCreation);
-        parcel.writeByte((byte) (readIs == null ? 0 : readIs ? 1 : 2));
-        parcel.writeString(readDate);
-        parcel.writeString(deliverDate);
-        if (id == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(id);
-        }
-        parcel.writeString(statusText);
-        parcel.writeParcelable(chatMessage, i);
-        if (status == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(status);
-        }
-        if (receiverUserId == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(receiverUserId);
-        }
-        if (userCreationId == null) {
-            parcel.writeByte((byte) 0);
-        } else {
-            parcel.writeByte((byte) 1);
-            parcel.writeInt(userCreationId);
-        }
-    }
 
     public Boolean getDeliverIs() {
         return deliverIs;

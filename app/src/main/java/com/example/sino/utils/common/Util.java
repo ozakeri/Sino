@@ -19,6 +19,8 @@ import com.example.sino.R;
 import com.example.sino.SinoApplication;
 import com.example.sino.model.Device;
 import com.example.sino.model.RequestBaseBean;
+import com.example.sino.model.db.ChatMessage;
+import com.example.sino.model.db.TmpChatMessage;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
@@ -52,15 +54,32 @@ public class Util {
         }
     }
 
-    public static String createJson(ArrayList<WSParameter> wsParameters) {
+    public static String createJson(ArrayList<WSParameter> wsParameters, TmpChatMessage chatMessage) {
+
+        System.out.println("chatMessage===" + chatMessage);
 
         RequestBaseBean requestBaseBean = new RequestBaseBean();
+        requestBaseBean.setTmpChatMessage(chatMessage);
         JsonElement jsonElement = new Gson().toJsonTree(requestBaseBean);
         JsonObject jsonObject = jsonElement.getAsJsonObject();
         for (WSParameter wsParameter : wsParameters)
             jsonObject.addProperty(wsParameter.key, wsParameter.value + "");
         String json = jsonObject.toString();
+        //json = json.replaceAll("\\\\", "");
+        System.out.println("createJson===" + json);
+
         return json;
+    }
+
+    public static String createChatMessageJson(ArrayList<WSParameter> wsParameters) {
+
+        JsonObject jsonObject = new JsonObject();
+        for (WSParameter wsParameter : wsParameters)
+            jsonObject.addProperty(wsParameter.key, wsParameter.value + "");
+        String json = jsonObject.toString();
+        System.out.println("createJson===" + json);
+        return json;
+
     }
 
 

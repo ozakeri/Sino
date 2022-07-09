@@ -10,7 +10,7 @@ import com.example.sino.model.db.ChatMessage;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
 
-@Database(entities = {User.class, UserPermission.class, ChatMessage.class, ChatGroup.class, ChatGroupMember.class, AppUser.class}, version = 2)
+@Database(entities = {User.class, UserPermission.class, ChatMessage.class, ChatGroup.class, ChatGroupMember.class, AppUser.class}, version = 3)
 public abstract class SinoDatabase extends RoomDatabase {
 
     public abstract SinoDao sinoDao();

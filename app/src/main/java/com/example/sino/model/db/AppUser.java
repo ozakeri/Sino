@@ -6,63 +6,22 @@ import android.os.Parcelable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 @Entity(tableName = "AppUser")
-public class AppUser implements Parcelable {
+public class AppUser {
 
+    @SerializedName("name")
+    @Expose
+    public String name;
+    @SerializedName("id")
+    @Expose
     @PrimaryKey
-    private Long id;
-    private String name;
-    private String family;
-
-    public AppUser() {
-    }
-
-    protected AppUser(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readLong();
-        }
-        name = in.readString();
-        family = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(id);
-        }
-        dest.writeString(name);
-        dest.writeString(family);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<AppUser> CREATOR = new Creator<AppUser>() {
-        @Override
-        public AppUser createFromParcel(Parcel in) {
-            return new AppUser(in);
-        }
-
-        @Override
-        public AppUser[] newArray(int size) {
-            return new AppUser[size];
-        }
-    };
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Integer id;
+    @SerializedName("family")
+    @Expose
+    public String family;
 
     public String getName() {
         return name;
@@ -70,6 +29,14 @@ public class AppUser implements Parcelable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFamily() {

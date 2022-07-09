@@ -18,6 +18,7 @@ import com.example.sino.model.db.AppUser;
 import com.example.sino.model.db.User;
 import com.example.sino.model.db.UserPermission;
 import com.example.sino.model.carinfo.SuccessCarInfoBean;
+import com.example.sino.model.userInfobyid.SuccessUserInfoByIdBean;
 import com.example.sino.utils.common.Util;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 
@@ -46,9 +47,9 @@ public class MainViewModel extends AndroidViewModel {
 
     MutableLiveData<SuccessPermissionBean> userPermissionMutableLiveData = new MutableLiveData<>();
     MutableLiveData<SuccessCarInfoBean> carInfoMutableLiveData = new MutableLiveData<>();
-    MutableLiveData<SuccessChatGroupBean> userChatGroupListMutableLiveData = new MutableLiveData<>();
-    MutableLiveData<SuccessChatGroupMemberBean> chatGroupMemberListMutableLiveData = new MutableLiveData<>();
-    MutableLiveData<SuccessCarInfoBean> getUserInfoByIdMutableLiveData = new MutableLiveData<>();
+    //Observable<SuccessChatGroupBean> userChatGroupListMutableLiveData = new MutableLiveData<>();
+    //MutableLiveData<SuccessChatGroupMemberBean> chatGroupMemberListMutableLiveData = new MutableLiveData<>();
+    //MutableLiveData<SuccessUserInfoByIdBean> getUserInfoByIdMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<SuccessPermissionBean> getUserPermissionListResult() {
         return userPermissionMutableLiveData;
@@ -98,16 +99,20 @@ public class MainViewModel extends AndroidViewModel {
         return carInfoMutableLiveData;
     }
 
-    public MutableLiveData<SuccessChatGroupBean> getUserChatGroupList() {
-        return userChatGroupListMutableLiveData;
+    public Observable<SuccessChatGroupBean> getUserChatGroupList(String INPUT_PARAM) {
+        return repository.getUserChatGroupListRepo(INPUT_PARAM);
     }
 
-    public MutableLiveData<SuccessChatGroupMemberBean> getChatGroupMemberList() {
-        return chatGroupMemberListMutableLiveData;
+    public Observable<SuccessChatGroupMemberBean> getChatGroupMemberList(String INPUT_PARAM) {
+        return repository.getUserChatGroupMemberListRepo(INPUT_PARAM);
     }
 
-    public MutableLiveData<SuccessCarInfoBean> getUserInfoById() {
-        return getUserInfoByIdMutableLiveData;
+    public Observable<SuccessUserInfoByIdBean> getUserInfoById(String INPUT_PARAM) {
+        return repository.getUserInfoByIdRepo(INPUT_PARAM);
+    }
+
+    public Observable<SuccessUserInfoByIdBean> saveChatMessageRV(String INPUT_PARAM) {
+        return repository.saveChatMessageRepo(INPUT_PARAM);
     }
 
     public void getCarInfo(String INPUT_PARAM, CircularProgressView progressView) {
@@ -128,7 +133,7 @@ public class MainViewModel extends AndroidViewModel {
                         , throwable -> Log.e("TAG", "getCarInfo: " + throwable.getLocalizedMessage()));
     }
 
-    public void getUserChatGroupList(String INPUT_PARAM, CircularProgressView progressView) {
+   /* public void getUserChatGroupList(String INPUT_PARAM, CircularProgressView progressView) {
         System.out.println("INPUT_PARAM=" + INPUT_PARAM);
         Util.showProgress(progressView);
 
@@ -144,9 +149,9 @@ public class MainViewModel extends AndroidViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> userChatGroupListMutableLiveData.setValue(result)
                         , throwable -> Log.e("TAG", "getUserChatGroupList: " + throwable.getLocalizedMessage()));
-    }
+    }*/
 
-    public void getUserChatGroupMemberList(String INPUT_PARAM) {
+ /*   public void getUserChatGroupMemberList(String INPUT_PARAM) {
         System.out.println("INPUT_PARAM=" + INPUT_PARAM);
         //Util.showProgress(progressView);
 
@@ -162,17 +167,17 @@ public class MainViewModel extends AndroidViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> chatGroupMemberListMutableLiveData.setValue(result)
                         , throwable -> Log.e("TAG", "getUserChatGroupMemberList: " + throwable.getLocalizedMessage()));
-    }
+    }*/
 
-    public void getUserInfoById(String INPUT_PARAM) {
+    /*public void getUserInfoById(String INPUT_PARAM) {
         System.out.println("INPUT_PARAM=" + INPUT_PARAM);
         //Util.showProgress(progressView);
 
         repository.getUserInfoByIdRepo(INPUT_PARAM).subscribeOn(Schedulers.io())
-                .map(new Function<SuccessCarInfoBean, SuccessCarInfoBean>() {
+                .map(new Function<SuccessUserInfoByIdBean, SuccessUserInfoByIdBean>() {
                     @Override
-                    public SuccessCarInfoBean apply(SuccessCarInfoBean successCarInfoBean) throws Throwable {
-                        getUserInfoByIdMutableLiveData.postValue(successCarInfoBean);
+                        public SuccessUserInfoByIdBean apply(SuccessUserInfoByIdBean successUserInfoByIdBean) throws Throwable {
+                        getUserInfoByIdMutableLiveData.postValue(successUserInfoByIdBean);
                        // Util.hideProgress(progressView);
                         return null;
                     }
@@ -180,7 +185,7 @@ public class MainViewModel extends AndroidViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> getUserInfoByIdMutableLiveData.setValue(result)
                         , throwable -> Log.e("TAG", "getUserInfoById: " + throwable.getLocalizedMessage()));
-    }
+    }*/
 
     @Override
     protected void onCleared() {

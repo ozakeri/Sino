@@ -24,14 +24,23 @@ public interface SinoDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertPermission(UserPermission permission);
 
+    @Insert
+    void insertChatMessage(ChatMessage chatMessage);
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    Long insertChatMessage(ChatMessage chatMessage);
+    void updateChatMessage(ChatMessage chatMessage);
 
     @Insert()
     void insertChatGroup(ChatGroup chatGroup);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void updateChatGroup(ChatGroup chatGroup);
+
+    @Insert()
+    void insertAppUser(AppUser appUser);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void updateAppUser(AppUser appUser);
 
     @Query("SELECT * FROM sino_table WHERE mobileNo=:mobileNo")
     User getUserByMobileNo(String mobileNo);
@@ -44,6 +53,9 @@ public interface SinoDao {
 
     @Query("SELECT * FROM permission WHERE userId=:userId")
     List<UserPermission> getUserPermissionListByUserId(Long userId);
+
+    @Query("SELECT * FROM chat_group WHERE status=:status")
+    List<ChatGroup> getActiveChatGroupList(int status);
 
     @Query("SELECT * FROM appuser WHERE id=:id")
     AppUser getAppUserById(Long id);

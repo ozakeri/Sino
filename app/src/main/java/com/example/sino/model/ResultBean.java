@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ResultBean implements Parcelable {
+public class ResultBean{
 
     @SerializedName("userPermissionList")
     @Expose
@@ -18,34 +18,6 @@ public class ResultBean implements Parcelable {
     @SerializedName("chatMessageReceiverList")
     @Expose
     public List<ChatMessageReceiver> chatMessageReceiverList = null;
-
-    protected ResultBean(Parcel in) {
-        userPermissionList = in.createStringArrayList();
-        chatMessageReceiverList = in.createTypedArrayList(ChatMessageReceiver.CREATOR);
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringList(userPermissionList);
-        dest.writeTypedList(chatMessageReceiverList);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<ResultBean> CREATOR = new Creator<ResultBean>() {
-        @Override
-        public ResultBean createFromParcel(Parcel in) {
-            return new ResultBean(in);
-        }
-
-        @Override
-        public ResultBean[] newArray(int size) {
-            return new ResultBean[size];
-        }
-    };
 
     public List<String> getUserPermissionList() {
         return userPermissionList;

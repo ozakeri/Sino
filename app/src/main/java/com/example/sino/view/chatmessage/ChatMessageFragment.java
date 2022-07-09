@@ -13,9 +13,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sino.R;
 import com.example.sino.SinoApplication;
+import com.example.sino.enumtype.SendingStatusEn;
 import com.example.sino.model.SuccessChatReceiveBean;
+import com.example.sino.model.chatgroup.ChatGroup;
 import com.example.sino.model.db.ChatMessage;
 import com.example.sino.model.db.User;
+import com.example.sino.model.userInfobyid.SuccessUserInfoByIdBean;
 import com.example.sino.utils.GsonGenerator;
 import com.example.sino.utils.common.Constant;
 import com.example.sino.viewmodel.DatabaseViewModel;
@@ -43,12 +46,25 @@ public class ChatMessageFragment extends Fragment {
     private CompositeDisposable compositeDisposable;
     private SuccessChatReceiveBean successChatReceiveBean;
     private SimpleDateFormat simpleDateFormat;
+    private View view;
+    private ChatGroup chatGroup;
+    private boolean isPrivateChatMessage = false;
+    private Long receiverUserId = null;
+    private Boolean groupIsPrivate = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat_message, container, false);
+        if (view == null){
+            view = inflater.inflate(R.layout.fragment_chat_message, container, false);
+            if (getArguments() != null){
+                chatGroup = getArguments().getParcelable("chatGroup");
+            }
+        }
+
+        return view;
+
     }
 
     @Override
@@ -63,6 +79,7 @@ public class ChatMessageFragment extends Fragment {
         simpleDateFormat = new SimpleDateFormat(Constant.DATE_TIME_FORMAT);
 
         getUserChatMessageList();
+        sendChatMessage("");
 
     }
 
@@ -125,7 +142,7 @@ public class ChatMessageFragment extends Fragment {
                                 for (ChatMessage chatMessage : chatMessageList) {
                                     List<ChatMessage> tmpChatMessageList = viewModel.getChatMessagesByServerMessageIdVM(chatMessage.getServerMessageId());
                                     if (tmpChatMessageList.isEmpty()) {
-                                        viewModel.insertChatMessageVM(chatMessage);
+                                        //viewModel.insertChatMessageVM(chatMessage);
                                         messageIdList.add(Long.valueOf(chatMessage.getId()));
                                     }
                                 }
@@ -171,5 +188,61 @@ public class ChatMessageFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         compositeDisposable.clear();
+    }
+
+    private void getChatMessageList(){
+        ChatMessage tmpChatMessageFS = new ChatMessage();
+        tmpChatMessageFS.setCreateNewPvChatGroup(false);
+        Integer loadMessageCount = 80;
+        tmpChatMessageFS.setChatGroupId(Integer.valueOf(String.valueOf(chatGroup.getServerGroupId())));
+        tmpChatMessageFS.setCreateNewPvChatGroup(false);
+    }
+
+    private void sendChatMessage(String message_str) {
+        String message = "Hello Test";
+        ChatMessage chatMessage = new ChatMessage();
+        chatMessage.setChatGroupId(Integer.valueOf(String.valueOf(chatGroup.getServerGroupId())));
+        chatMessage.setDateCreation(String.valueOf(new Date()));
+        chatMessage.setMessage(message);
+        chatMessage.setSenderAppUserId(user.getServerUserId());
+        //chatMessage.setSendingStatusEn(SendingStatusEn.Pending.ordinal());
+        chatMessage.setSendingStatusDate(new Date());
+        chatMessage.setDeliverIs(Boolean.FALSE);
+        chatMessage.setReadIs(Boolean.FALSE);
+        chatMessage.setReceiverAppUserId(null);
+        chatMessage.setCreateNewPvChatGroup(isPrivateChatMessage);
+        chatMessage.setSendingStatusEn(SendingStatusEn.InProgress.ordinal());
+        chatMessage.setSendingStatusDate(new Date());
+        if (receiverUserId != null) {
+            chatMessage.setReceiverAppUserId(receiverUserId);
+        }
+        if (groupIsPrivate) {
+            chatMessage.setCreateNewPvChatGroup(true);
+        }
+
+        viewModel.insertChatMessageVM(chatMessage);
+        inputParam = GsonGenerator.saveChatMessage(user.getUsername(), user.getBisPassword(), chatMessage);
+        mainViewModel.saveChatMessageRV(inputParam).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SuccessUserInfoByIdBean>() {
+                    @Override
+                    public void onSubscribe(@io.reactivex.rxjava3.annotations.NonNull Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(@io.reactivex.rxjava3.annotations.NonNull SuccessUserInfoByIdBean successUserInfoByIdBean) {
+
+                    }
+
+                    @Override
+                    public void onError(@io.reactivex.rxjava3.annotations.NonNull Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }
